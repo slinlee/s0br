@@ -4,8 +4,11 @@
   import CommitmentButton from "../components/Commitment-Button.svelte";
 </script>
 
-<h1>Welcome to S0BR</h1>
+<h1 class="text-center text-3xl p-20">Welcome to S0BR</h1>
 
 <Wallet />
 <Calendar />
-<CommitmentButton />
+
+<div class="flex justify-center">
+  <CommitmentButton />
+</div>
