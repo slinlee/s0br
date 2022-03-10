@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: courier;
+@layer base {
+  html {
+    font-family: courier;
+  }
 }
