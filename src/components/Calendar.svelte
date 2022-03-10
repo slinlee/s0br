@@ -28,7 +28,7 @@
   const fakeData = generateFakeData();
 </script>
 
-<div class="w-3/5 mx-auto">
+<div class="mx-auto sm:w-96 sm:max-w-16 md:max-w-96 md:w-2/5">
   <SvelteHeatmap
     allowOverflow={true}
     cellGap={5}
