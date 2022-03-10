@@ -25,7 +25,7 @@
   }
 </script>
 
-<div class="walletButtonGroup justifyCenter">
+<div class="fixed top-0 right-0 border-1 p-8">
   {#if walletConnected}
     <div>
       <span class="dotConnected" />
@@ -36,43 +36,4 @@
       Connect MetaMask
     </button>
   {/if}
-
-  <div class="network">
-    After connecting MetaMask, please switch to Polygon Network.
-  </div>
 </div>
-
-<style>
-  .walletButtonGroup {
-    margin: 10px 0;
-    min-height: 46px;
-    /* display: flex; */
-    gap: 20px;
-    /* flex-direction: row; */
-    align-items: center;
-    justify-content: space-between;
-  }
-  .justifyCenter {
-    justify-content: center;
-    text-align: center;
-  }
-  .network {
-    margin: 2.5vh 0;
-  }
-  .buttonMetaMask {
-    --button-bg-color: #f6851b;
-  }
-  .dotConnected {
-    display: inline-block;
-    margin: 1px 10px;
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-    background-color: #34d399;
-  }
-  @media screen and (min-width: 768px) {
-    .walletButtonGroup {
-      flex-direction: row;
-    }
-  }
-</style>
