@@ -1,0 +1,8 @@
+node_modules/
+playwright-report/
+package-lock.json
+/.svelte-kit
+/package
+/build
+/test-results
+.vercel
