@@ -11,6 +11,8 @@ npm run dev
 npm run dev -- --open
 ```
 
+Run tests with `npm run test`
+
 ## Building
 
 To create a production version of your app:
@@ -20,3 +22,7 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
+
+## Deploying
+
+Deployments happen automatically to s0br.vercel.app when merging to `main`
