@@ -1,1 +1,53 @@
-<h1>Calendar Compenent</h1>
+<script>
+  import moment from "moment";
+  import SvelteHeatmap from "svelte-heatmap";
+
+  // Generate a random number
+  function rand(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // Generate dummy data for a heatmap
+  function generateFakeData() {
+    const data = [];
+    const date = moment().subtract(1, "year");
+    const now = moment();
+
+    while (date.isBefore(now)) {
+      data.push({
+        date: date.toDate(),
+        value: rand(0, 4),
+      });
+
+      date.add(1, "day");
+    }
+
+    return data;
+  }
+
+  const fakeData = generateFakeData();
+</script>
+
+<div class="container">
+  <SvelteHeatmap
+    allowOverflow={true}
+    cellGap={5}
+    cellRadius={1}
+    colors={["#a1dab4", "#42b6c4", "#2c7fb9", "#263494"]}
+    data={fakeData}
+    dayLabelWidth={0}
+    emptyColor={"#ecedf0"}
+    endDate={moment().toDate()}
+    monthGap={20}
+    monthLabelHeight={0}
+    startDate={moment().subtract(1, "week").toDate()}
+    view={"monthly"}
+  />
+</div>
+
+<style>
+  .container {
+    border: 0;
+    padding: 20px;
+  }
+</style>
