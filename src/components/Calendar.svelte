@@ -16,7 +16,7 @@
     while (date.isBefore(now)) {
       data.push({
         date: date.toDate(),
-        value: rand(0, 4),
+        value: rand(0, 1),
       });
 
       date.add(1, "day");
@@ -28,7 +28,7 @@
   const fakeData = generateFakeData();
 </script>
 
-<div class="container">
+<div class="w-3/5 mx-auto">
   <SvelteHeatmap
     allowOverflow={true}
     cellGap={5}
@@ -44,10 +44,3 @@
     view={"monthly"}
   />
 </div>
-
-<style>
-  .container {
-    border: 0;
-    padding: 20px;
-  }
-</style>
