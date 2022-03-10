@@ -1,5 +1,9 @@
 # S0BR
 
+An experiment to make something I want to use myself using Web3 tech.
+
+The UI was created with [SvelteKit](https://kit.svelte.dev/) and [TailwindCSS](https://tailwindcss.com/)
+
 ## Developing
 
 Once you've installed dependencies with `npm install`, start a development server:
