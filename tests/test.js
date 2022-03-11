@@ -23,3 +23,10 @@ test("index page should have wallet info", async ({ page }) => {
     "Connect MetaMask"
   );
 });
+
+test("index page should have calendar", async ({ page }) => {
+  // Go to http://localhost:3000/
+  await page.goto("/");
+
+  await expect(page.locator('[data-test="calendar"]')).toBeVisible();
+});
