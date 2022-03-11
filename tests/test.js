@@ -14,3 +14,12 @@ test("index page should have main button", async ({ page }) => {
     "I am not drinking today"
   );
 });
+
+test("index page should have wallet info", async ({ page }) => {
+  // Go to http://localhost:3000/
+  await page.goto("/");
+
+  await expect(page.locator('[data-test="wallet-info"]')).toContainText(
+    "Connect MetaMask"
+  );
+});
