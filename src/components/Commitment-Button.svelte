@@ -1,4 +1,5 @@
 <button
+  data-test="commitment-btn"
   class="rounded 
     p-6 
     shadow-lg 
