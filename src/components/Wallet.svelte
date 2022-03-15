@@ -4,6 +4,9 @@
   let account;
   let connectWalletError;
   let walletConnected = false;
+  let balance;
+  let network;
+
   async function connectWallet() {
     walletConnected = false;
     const { ethereum } = window;
@@ -15,6 +18,8 @@
         const [firstAccount] = accountList;
         account = firstAccount;
         walletConnected = true;
+        getBalance(account);
+        getNetwork();
         console.log("wallet connected");
         console.log(account);
       })
@@ -23,6 +28,19 @@
         connectWalletError = error;
         console.log("error connecting wallet");
       });
+  }
+
+  async function getBalance(account) {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const bal = await provider.getBalance(account);
+
+    balance = ethers.utils.formatEther(bal);
+  }
+
+  async function getNetwork() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    network = await provider.getNetwork();
+    network = network.name;
   }
 </script>
 
@@ -34,6 +52,8 @@
     <div>
       Connected Account: {account}
     </div>
+    <div>Balance: {balance}</div>
+    <div>Network: {network}</div>
     <AddTokenButton />
   {:else}
     <button class="button buttonMetaMask" on:click={connectWallet}>
