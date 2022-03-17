@@ -39,7 +39,7 @@
   "type": "module",
   "dependencies": {
     "ethers": "^5.6.0",
-    "moment": "^2.29.1",
+    "date-fns": "^2.28.0",
     "svelte-heatmap": "^1.0.2"
   },
   "lint-staged": {
