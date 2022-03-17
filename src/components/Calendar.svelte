@@ -1,5 +1,5 @@
 <script>
-  import moment from "moment";
+  import { add, sub, isBefore } from 'date-fns'
   import SvelteHeatmap from "svelte-heatmap";
 
   // Generate a random number
@@ -10,16 +10,16 @@
   // Generate dummy data for a heatmap
   function generateFakeData() {
     const data = [];
-    const date = moment().subtract(1, "year");
-    const now = moment();
+    const now = new Date();
+    let date = sub(now, { years: 1 });
 
-    while (date.isBefore(now)) {
+    while (isBefore(date, now)) {
       data.push({
-        date: date.toDate(),
+        date,
         value: rand(0, 1),
       });
 
-      date.add(1, "day");
+      date = add(date, { days: 1 });
     }
 
     return data;
@@ -40,10 +40,10 @@
     data={fakeData}
     dayLabelWidth={0}
     emptyColor={"#ecedf0"}
-    endDate={moment().toDate()}
+    endDate={new Date()}
     monthGap={20}
     monthLabelHeight={0}
-    startDate={moment().subtract(1, "week").toDate()}
+    startDate={sub(new Date(), {weeks: 1})}
     view={"monthly"}
   />
 </div>
