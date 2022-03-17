@@ -10,8 +10,6 @@
   async function connectWallet() {
     walletConnected = false;
     const { ethereum } = window;
-    console.log("ethereum: ", ethereum);
-    console.log("Connecting wallet");
     await ethereum
       .request({ method: "eth_requestAccounts" })
       .then((accountList) => {

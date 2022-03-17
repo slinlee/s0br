@@ -1,5 +1,5 @@
 <script>
-  import { add, sub, isBefore } from 'date-fns'
+  import { add, sub, isBefore } from "date-fns";
   import SvelteHeatmap from "svelte-heatmap";
 
   // Generate a random number
@@ -43,7 +43,7 @@
     endDate={new Date()}
     monthGap={20}
     monthLabelHeight={0}
-    startDate={sub(new Date(), {weeks: 1})}
+    startDate={sub(new Date(), { weeks: 1 })}
     view={"monthly"}
   />
 </div>
