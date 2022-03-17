@@ -42,10 +42,7 @@
   }
 </script>
 
-<div
-  class="fixed top-0 right-0 border-1 p-8 place-content-end"
-  data-test="wallet-info"
->
+<div class="col-span-12 place-self-end p-8" data-test="wallet-info">
   {#if walletConnected}
     <div>
       Connected Account: {account}

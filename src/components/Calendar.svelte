@@ -29,7 +29,7 @@
 </script>
 
 <div
-  class="mx-auto sm:w-96 sm:max-w-16 md:max-w-96 md:w-2/5"
+  class="px-6 md:col-start-3 md:col-end-11 lg:col-start-4 lg:col-end-10"
   data-test="calendar"
 >
   <SvelteHeatmap
