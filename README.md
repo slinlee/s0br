@@ -6,6 +6,8 @@ The UI was created with [SvelteKit](https://kit.svelte.dev/) and [TailwindCSS](h
 
 ## Developing
 
+Copy `.env.example` to `.env` and fill in at least the [Moralis](https://moralis.io) API key.
+
 Once you've installed dependencies with `npm install`, start a development server:
 
 ```bash
