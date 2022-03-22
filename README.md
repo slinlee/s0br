@@ -8,26 +8,28 @@ The UI was created with [SvelteKit](https://kit.svelte.dev/) and [TailwindCSS](h
 
 Copy `.env.example` to `.env` and fill in at least the [Moralis](https://moralis.io) API key.
 
-Once you've installed dependencies with `npm install`, start a development server:
+This project uses `pnpm` to manage node packages. [Install that here if you haven't already](https://pnpm.io).
+
+Once you've installed dependencies with `pnpm install`, start a development server:
 
 ```bash
-npm run dev
+pnpm run dev
 
 # or start the server and open the app in a new browser tab
-npm run dev -- --open
+pnpm run dev -- --open
 ```
 
-Run tests with `npm run test`
+Run tests with `pnpm run test`
 
 ## Building
 
 To create a production version of your app:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with `pnpm run preview`.
 
 ## Deploying
 
