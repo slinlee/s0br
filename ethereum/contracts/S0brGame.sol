@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0 <=0.9.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol"; // debugging
 
@@ -59,6 +60,15 @@ contract S0brGame is Ownable {
         // TODO - how do we do this for nft?
         ERC20 instance = ERC20(ERC20TokenAddress);
         if( instance.balanceOf(_user) >= ERC20TokenMinimum ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function hasRequiredNFT(address _user) public view returns(bool) {
+        ERC721 instance = ERC721(requiredNFTAddress);
+        if( instance.balanceOf(_user) >= 0) {
             return true;
         } else {
             return false;
