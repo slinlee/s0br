@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Tests
 on:
   push:
     branches: [main]
@@ -21,15 +21,25 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml')}}
           restore-keys: |
             ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.1.0
+
+      - name: Cache playwright binaries
+        uses: actions/cache@v2
+        id: playwright-cache
         with:
-          version: 6.0.2
+          path: |
+            ~/.cache/ms-playwright
+          key: cache-playwright-linux-1.19.1
+
+      - uses: pnpm/action-setup@v2.2.1
+        with:
+          version: 6.32.3
           run_install: |
-            - args: [--frozen-lockfile]
+            - args: [--frozen-lockfile, -r]
       - name: Install Playwright
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npx playwright test
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright install --with-deps
+      - name: Run tests
+        run: pnpm -r run test
       - uses: actions/upload-artifact@v2
         if: always()
         with:
