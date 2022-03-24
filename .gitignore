@@ -9,3 +9,8 @@ node_modules
 test-results/
 playwright-report/
 .vercel
+.pnpm-debug.log
+artifacts/
+cache/
+flatten/
+.eslintcache
