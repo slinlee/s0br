@@ -4,14 +4,27 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract Fweb3Diamond is ERC721, Ownable {
-  constructor() ERC721("Fweb3 Diamond NFT", "FWEB3DIAMONDNFT") {}
+contract S0brNFTDay1 is ERC721, ERC721Burnable, Ownable {
+    using Counters for Counters.Counter;
 
-  function toString(uint256 value) internal pure returns (string memory) {
-    if (value == 0) {
-        return "0";
+    Counters.Counter private _tokenIdCounter;
+
+    constructor() ERC721("S0br NFT Day 1", "S0BRDAY1") {}
+
+    function safeMint(address to) public onlyOwner {
+        // TODO - is this meant to be onlyOwner?
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
     }
+
+    function toString(uint256 value) internal pure returns (string memory) {
+        if (value == 0) {
+            return "0";
+        }
     uint256 temp = value;
     uint256 digits;
     while (temp != 0) {
