@@ -38,12 +38,12 @@
   },
   "type": "module",
   "dependencies": {
-    "ethers": "^5.6.0",
     "date-fns": "^2.28.0",
+    "ethers": "^5.6.0",
     "svelte-heatmap": "^1.0.2"
   },
   "lint-staged": {
     "*.{ts,svelte,js,cjs}": "eslint --cache --fix",
-    "*.{js,css,md,html,ts,svelte,json,cjs}": "prettier --write"
+    "*.{js,css,md,html,ts,svelte,json,cjs,yaml,yml}": "prettier --write"
   }
 }
