@@ -70,6 +70,9 @@ describe("S0BR Game Test", function () {
   });
 
   describe("Faucet", function () {
+    // TODO - check if user has requiredNFT
+
+    
     it("Should return the accurate tokenAddress", async function () {
       const currenERC20TokenAddress = await faucet.getERC20TokenAddress();
       const deployedERC20TokenAddress = await s0brToken.address;
@@ -89,12 +92,12 @@ describe("S0BR Game Test", function () {
       expect(currentTimeout).to.equal(timeout);
     });
 
-    it("Should return the accurate ERC20 Token Minimum", async function () {
-      const currentERC20TokenMinimum = await faucet.getERC20TokenMinimum();
-      expect(String(currentERC20TokenMinimum)).to.equal(
-        String(ERC20TokenMinimum * 10 ** 18)
-      );
-    });
+    // it("Should return the accurate ERC20 Token Minimum", async function () {
+    //   const currentERC20TokenMinimum = await faucet.getERC20TokenMinimum();
+    //   expect(String(currentERC20TokenMinimum)).to.equal(
+    //     String(ERC20TokenMinimum * 10 ** 18)
+    //   );
+    // });
 
     it("Should not send funds if there are no tokens to give", async function () {
       await expect(faucet.faucet(addr1.address)).to.be.revertedWith(
@@ -118,7 +121,7 @@ describe("S0BR Game Test", function () {
       await faucet.faucet(addr1.address); // Success
     });
 
-    it("Should Send 1 Ether to Person Who Asks", async function () {
+    it("Should Send 1 Token to Person Who Asks", async function () {
       // Send 100 ETH to the faucet to prime it
       const transactionHash = await owner.sendTransaction({
         to: faucet.address,
@@ -137,6 +140,12 @@ describe("S0BR Game Test", function () {
     });
 
     it("Should Not Send Ether before Timeout, but should after the timeout", async function () {
+      // TODO - add in different scenarios for "1 day passing"
+      // Check in at 10 am, then next day at 7 am <- pass
+      // Check in at 7 am, then next day at 10 am <- pass
+      // Check in at 10 pm, then next day at 7 am <- pass
+      // Check in at 7 am, then same day at 10 pm <- fail
+      
       // Send 100 ETH to the faucet to prime it
       const transactionHash = await owner.sendTransaction({
         to: faucet.address,
@@ -186,6 +195,8 @@ describe("S0BR Game Test", function () {
     });
 
     it("Should check if the timeout is present after a faucet call is made", async function () {
+      // TODO - convert how timeout is saved
+
       // Send 100 ETH to the faucet to prime it
       const transactionHash = await owner.sendTransaction({
         to: faucet.address,
@@ -198,7 +209,10 @@ describe("S0BR Game Test", function () {
 
       const postFaucetTimeout = await faucet.getAddressTimeout(addr1.address);
 
-      expect(preFaucetTimeout).to.be.below(postFaucetTimeout);
+
+      // expect(preFaucetTimeout).to.be.below(postFaucetTimeout);
+      // TODO - also check the value is later
+      expect(preFaucetTimeout.length).to.be.equal(postFaucetTimeout.length - 1);
     });
 
     it("Should emit an event once a transfer is made", async function () {
