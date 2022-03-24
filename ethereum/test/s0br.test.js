@@ -2,9 +2,9 @@ const { expect } = require("chai");
 const { network } = require("hardhat");
 require("dotenv").config();
 
-describe("SchusterEtherFaucet", function () {
+describe("S0BR Game Test", function () {
   let Token;
-  let schusterToken;
+  let s0brToken;
   let Faucet;
   let faucet;
   let owner;
@@ -17,27 +17,25 @@ describe("SchusterEtherFaucet", function () {
   let timeout;
 
   beforeEach(async function () {
-    Token = await ethers.getContractFactory("SchusterTestToken");
+    Token = await ethers.getContractFactory("S0brToken");
     [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
-    schusterToken = await Token.deploy();
+    s0brToken = await Token.deploy();
 
     faucetDripBase = 1;
     faucetDripDecimal = 18;
     ERC20TokenMinimum = 300;
     timeout = 60;
 
-    Faucet = await ethers.getContractFactory("SchusterEtherFaucet");
+    Faucet = await ethers.getContractFactory("S0brGame");
     faucet = await Faucet.deploy(
-      schusterToken.address,
+      s0brToken.address,
       faucetDripBase,
       faucetDripDecimal,
       ERC20TokenMinimum,
       timeout
     );
 
-    await faucet.verifyRunner(owner.address);
-
-    const transactionHashToken = await schusterToken.transfer(
+    const transactionHashToken = await s0brToken.transfer(
       addr1.address,
       ethers.utils.parseEther("300")
     );
@@ -74,7 +72,7 @@ describe("SchusterEtherFaucet", function () {
   describe("Faucet", function () {
     it("Should return the accurate tokenAddress", async function () {
       const currenERC20TokenAddress = await faucet.getERC20TokenAddress();
-      const deployedERC20TokenAddress = await schusterToken.address;
+      const deployedERC20TokenAddress = await s0brToken.address;
       expect(currenERC20TokenAddress).to.equal(deployedERC20TokenAddress);
     });
 
@@ -170,7 +168,7 @@ describe("SchusterEtherFaucet", function () {
         "You Do Not Have Enough ERC20 tokens"
       ); //Fail
 
-      const transactionHashToken0 = await schusterToken.transfer(
+      const transactionHashToken0 = await s0brToken.transfer(
         addr2.address,
         ethers.utils.parseEther("100")
       );
@@ -179,7 +177,7 @@ describe("SchusterEtherFaucet", function () {
         "You Do Not Have Enough ERC20 tokens"
       ); //Fail
 
-      const transactionHashToken1 = await schusterToken.transfer(
+      const transactionHashToken1 = await s0brToken.transfer(
         addr2.address,
         ethers.utils.parseEther("200")
       );

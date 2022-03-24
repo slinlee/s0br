@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0 <=0.9.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./VerifiedAccounts.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract SchusterEtherFaucet is VerifiedAccounts {
+
+contract S0brGame is Ownable {
 
     address private ERC20TokenAddress; //Address of the ERC20 Token we're tracking
     uint256 private faucetDripAmount; //Amount to be sent
@@ -49,7 +50,7 @@ contract SchusterEtherFaucet is VerifiedAccounts {
         }
     }
 
-    function faucet(address payable _to) external onlyVerified {
+    function faucet(address payable _to) external {
         require(address(this).balance >= faucetDripAmount, "Insufficient Faucet Funds");
         require(timeouts[_to] <= block.timestamp - (timeout * 1 minutes), "Too Early for Another Faucet Drop");
         require(hasERC20Token(_to), "You Do Not Have Enough ERC20 tokens");
