@@ -8,4 +8,7 @@ async function main() {
   console.log("Game deployed to: ", game.address);
 }
 
-main();
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});

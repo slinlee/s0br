@@ -44,7 +44,7 @@
     "svelte-heatmap": "^1.0.2"
   },
   "lint-staged": {
-    "*.{ts,svelte,js,cjs}": "eslint --cache --fix",
+    "*.{ts,svelte}": "eslint --cache --fix",
     "*.{js,css,md,html,ts,svelte,json,cjs,yaml,yml,sol}": "prettier --write --plugin-search-dir=."
   }
 }
