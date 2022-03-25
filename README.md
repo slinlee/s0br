@@ -4,6 +4,8 @@ An experiment to make something I want to use myself using Web3 tech.
 
 The UI was created with [SvelteKit](https://kit.svelte.dev/) and [TailwindCSS](https://tailwindcss.com/)
 
+The solidity contracts live in `/ethereum`. Check out the README.md in that directory for more details.
+
 ## Developing
 
 Copy `.env.example` to `.env` and fill in at least the [Moralis](https://moralis.io) API key.
