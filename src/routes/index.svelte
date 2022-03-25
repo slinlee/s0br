@@ -6,7 +6,6 @@
 </script>
 
 <div class="grid grid-cols-1 md:grid-cols-12">
-
   <Wallet />
   <h1 class="col-span-12 text-3xl py-20 place-self-center">Welcome to S0BR</h1>
 
