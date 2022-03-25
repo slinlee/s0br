@@ -5,7 +5,6 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol"; // debugging
 
-
 contract S0brGame is Ownable {
     // TODO - add function to get number of timeouts (saved days)
     // TODO - add setters
@@ -14,34 +13,40 @@ contract S0brGame is Ownable {
     address private ERC20TokenAddress; //Address of the ERC20 Token we're distributing
     address private requiredNFTAddress; // Address of the ERC721 Token required
     uint256 private faucetDripAmount; //Amount to be sent
-    uint private timeout; //Timeout in minutes
-    uint private ERC20TokenMinimum; //Minimum amount of tokens needs to be considered for this faucet // TODO - del me
-    mapping(address => uint[]) timeouts; //Time of last faucet drip per address
+    uint256 private timeout; //Timeout in minutes
+    uint256 private ERC20TokenMinimum; //Minimum amount of tokens needs to be considered for this faucet // TODO - del me
+    mapping(address => uint256[]) timeouts; //Time of last faucet drip per address
 
-    event sentTokens(address indexed _user, uint _timestamp);
-    event commitedDay(address indexed _user, uint _timestamp);
+    event sentTokens(address indexed _user, uint256 _timestamp);
+    event commitedDay(address indexed _user, uint256 _timestamp);
 
-    constructor(address _ERC20TokenAddress, uint _faucetDripBase, uint _faucetDripDecimal, uint _ERC20TokenMinimum, uint _timeout) {
+    constructor(
+        address _ERC20TokenAddress,
+        uint256 _faucetDripBase,
+        uint256 _faucetDripDecimal,
+        uint256 _ERC20TokenMinimum,
+        uint256 _timeout
+    ) {
         // TODO - add in NFT address as param and save here
-        ERC20TokenAddress = _ERC20TokenAddress; 
+        ERC20TokenAddress = _ERC20TokenAddress;
         faucetDripAmount = _faucetDripBase * (10**_faucetDripDecimal); //Ether (or Native Token)
         ERC20TokenMinimum = _ERC20TokenMinimum * (10**18); //300 ERC20 Tokens, assumes 18 decimals
         timeout = _timeout; //Timeout in minutes
     }
 
-    function getERC20TokenAddress() external view returns(address) {
+    function getERC20TokenAddress() external view returns (address) {
         return ERC20TokenAddress;
     }
-    
-    function getRequiredNFTAddress() external view returns(address) {
+
+    function getRequiredNFTAddress() external view returns (address) {
         return requiredNFTAddress;
     }
 
-    function getFaucetDripAmount() external view returns(uint) {
+    function getFaucetDripAmount() external view returns (uint256) {
         return faucetDripAmount;
     }
 
-    function getTimeout() external view returns(uint) {
+    function getTimeout() external view returns (uint256) {
         return timeout;
     }
 
@@ -50,16 +55,20 @@ contract S0brGame is Ownable {
     //     return ERC20TokenMinimum;
     // }
 
-    function getAddressTimeout(address _user) external view returns(uint[] memory) {
+    function getAddressTimeout(address _user)
+        external
+        view
+        returns (uint256[] memory)
+    {
         if (timeouts[_user].length > 0) {
             return timeouts[_user];
         } else {
-            return new uint[](0);
+            return new uint256[](0);
         }
     }
-    
+
     // TODO - Add function for saving the recent timeout
-    
+
     // TODO - Add function for checking if it's too soon for a new check-in
 
     // function hasERC20Token(address _user) public view returns(bool) {
@@ -72,9 +81,9 @@ contract S0brGame is Ownable {
     //     }
     // }
 
-    function hasRequiredNFT(address _user) public view returns(bool) {
+    function hasRequiredNFT(address _user) public view returns (bool) {
         ERC721 instance = ERC721(requiredNFTAddress);
-        if( instance.balanceOf(_user) >= 0) {
+        if (instance.balanceOf(_user) >= 0) {
             return true;
         } else {
             return false;
@@ -82,7 +91,10 @@ contract S0brGame is Ownable {
     }
 
     function faucet(address payable _to) external {
-        require(address(this).balance >= faucetDripAmount, "Insufficient Faucet Funds");
+        require(
+            address(this).balance >= faucetDripAmount,
+            "Insufficient Faucet Funds"
+        );
 
         // console.log("timeouts ", timeouts[_to][timeouts[_to].length - 1]); // debug
         // require(timeouts[_to][timeouts[_to].length - 1] <= block.timestamp - (timeout * 1 minutes), "Too Early for Another Faucet Drop");
@@ -95,15 +107,12 @@ contract S0brGame is Ownable {
         emit commitedDay(_to, block.timestamp);
     }
 
-    function getBalance() view external returns (uint256) {
+    function getBalance() external view returns (uint256) {
         // TODO - change this to show the ERC20 balance
         return address(this).balance;
     }
 
-    fallback() external payable {
-    }
+    fallback() external payable {}
 
-    receive() external payable {
-    }
-
+    receive() external payable {}
 }
