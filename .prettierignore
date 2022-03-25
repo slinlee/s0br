@@ -1,8 +1,11 @@
 node_modules/
 playwright-report/
-pnpm-lock.json
+pnpm-lock.yaml
 /.svelte-kit
 /package
 /build
 /test-results
 .vercel
+cache/
+artifacts/
+flatten/
