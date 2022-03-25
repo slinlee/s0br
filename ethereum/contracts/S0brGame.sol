@@ -8,9 +8,10 @@ import "hardhat/console.sol"; // debugging
 
 contract S0brGame is Ownable {
     // TODO - add function to get number of timeouts (saved days)
+    // TODO - add setters
     // TODO - rename timeouts?
 
-    address private ERC20TokenAddress; //Address of the ERC20 Token we're tracking // TODO del me
+    address private ERC20TokenAddress; //Address of the ERC20 Token we're distributing
     address private requiredNFTAddress; // Address of the ERC721 Token required
     uint256 private faucetDripAmount; //Amount to be sent
     uint private timeout; //Timeout in minutes
@@ -18,6 +19,7 @@ contract S0brGame is Ownable {
     mapping(address => uint[]) timeouts; //Time of last faucet drip per address
 
     event sentTokens(address indexed _user, uint _timestamp);
+    event commitedDay(address indexed _user, uint _timestamp);
 
     constructor(address _ERC20TokenAddress, uint _faucetDripBase, uint _faucetDripDecimal, uint _ERC20TokenMinimum, uint _timeout) {
         // TODO - add in NFT address as param and save here
@@ -43,10 +45,10 @@ contract S0brGame is Ownable {
         return timeout;
     }
 
-    function getERC20TokenMinimum() external view returns(uint) {
-        // TODO - del me
-        return ERC20TokenMinimum;
-    }
+    // function getERC20TokenMinimum() external view returns(uint) {
+    //     // TODO - del me
+    //     return ERC20TokenMinimum;
+    // }
 
     function getAddressTimeout(address _user) external view returns(uint[] memory) {
         if (timeouts[_user].length > 0) {
@@ -55,16 +57,20 @@ contract S0brGame is Ownable {
             return new uint[](0);
         }
     }
+    
+    // TODO - Add function for saving the recent timeout
+    
+    // TODO - Add function for checking if it's too soon for a new check-in
 
-    function hasERC20Token(address _user) public view returns(bool) {
-        // TODO - how do we do this for nft?
-        ERC20 instance = ERC20(ERC20TokenAddress);
-        if( instance.balanceOf(_user) >= ERC20TokenMinimum ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // function hasERC20Token(address _user) public view returns(bool) {
+    //     // TODO - how do we do this for nft?
+    //     ERC20 instance = ERC20(ERC20TokenAddress);
+    //     if( instance.balanceOf(_user) >= ERC20TokenMinimum ) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     function hasRequiredNFT(address _user) public view returns(bool) {
         ERC721 instance = ERC721(requiredNFTAddress);
@@ -81,14 +87,16 @@ contract S0brGame is Ownable {
         // console.log("timeouts ", timeouts[_to][timeouts[_to].length - 1]); // debug
         // require(timeouts[_to][timeouts[_to].length - 1] <= block.timestamp - (timeout * 1 minutes), "Too Early for Another Faucet Drop");
 
-        require(hasERC20Token(_to), "You Do Not Have Enough ERC20 tokens");
+        // require(hasERC20Token(_to), "You Do Not Have Enough ERC20 tokens");
+        require(hasRequiredNFT(_to), "You do not have the required NFT Token");
         timeouts[_to].push(block.timestamp);
-        (bool sent, ) = _to.call{value: faucetDripAmount}(""); // TODO - look at this
+        (bool sent, ) = _to.call{value: faucetDripAmount}(""); // TODO - look at this. Make this send erc20 token instead of MATIC
         require(sent, "Failed to send token");
-        emit sentTokens(_to, block.timestamp);
+        emit commitedDay(_to, block.timestamp);
     }
 
     function getBalance() view external returns (uint256) {
+        // TODO - change this to show the ERC20 balance
         return address(this).balance;
     }
 
