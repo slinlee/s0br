@@ -13,7 +13,7 @@ describe("S0BR Game Test", function () {
   let addrs;
   let faucetDripBase;
   let faucetDripDecimal;
-  let ERC20TokenMinimum;
+  // let ERC20TokenMinimum;
   let timeout;
 
   beforeEach(async function () {
@@ -23,7 +23,7 @@ describe("S0BR Game Test", function () {
 
     faucetDripBase = 1;
     faucetDripDecimal = 18;
-    ERC20TokenMinimum = 300;
+    // ERC20TokenMinimum = 300;
     timeout = 60;
 
     Faucet = await ethers.getContractFactory("S0brGame");
@@ -31,7 +31,7 @@ describe("S0BR Game Test", function () {
       s0brToken.address,
       faucetDripBase,
       faucetDripDecimal,
-      ERC20TokenMinimum,
+      // ERC20TokenMinimum,
       timeout
     );
 

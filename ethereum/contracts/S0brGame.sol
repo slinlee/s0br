@@ -14,7 +14,7 @@ contract S0brGame is Ownable {
     address private requiredNFTAddress; // Address of the ERC721 Token required
     uint256 private faucetDripAmount; //Amount to be sent
     uint256 private timeout; //Timeout in minutes
-    uint256 private ERC20TokenMinimum; //Minimum amount of tokens needs to be considered for this faucet // TODO - del me
+    // uint256 private ERC20TokenMinimum; //Minimum amount of tokens needs to be considered for this faucet // TODO - del me
     mapping(address => uint256[]) timeouts; //Time of last faucet drip per address
 
     event sentTokens(address indexed _user, uint256 _timestamp);
@@ -24,13 +24,13 @@ contract S0brGame is Ownable {
         address _ERC20TokenAddress,
         uint256 _faucetDripBase,
         uint256 _faucetDripDecimal,
-        uint256 _ERC20TokenMinimum,
+        // uint256 _ERC20TokenMinimum,
         uint256 _timeout
     ) {
         // TODO - add in NFT address as param and save here
         ERC20TokenAddress = _ERC20TokenAddress;
         faucetDripAmount = _faucetDripBase * (10**_faucetDripDecimal); //Ether (or Native Token)
-        ERC20TokenMinimum = _ERC20TokenMinimum * (10**18); //300 ERC20 Tokens, assumes 18 decimals
+        // ERC20TokenMinimum = _ERC20TokenMinimum * (10**18); //300 ERC20 Tokens, assumes 18 decimals
         timeout = _timeout; //Timeout in minutes
     }
 
@@ -82,6 +82,7 @@ contract S0brGame is Ownable {
     // }
 
     function hasRequiredNFT(address _user) public view returns (bool) {
+        return true; // debug
         ERC721 instance = ERC721(requiredNFTAddress);
         if (instance.balanceOf(_user) >= 0) {
             return true;
