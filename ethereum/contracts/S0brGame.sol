@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0 <=0.9.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol"; // debugging
 
@@ -10,7 +11,8 @@ contract S0brGame is Ownable {
     // TODO - add setters
     // TODO - rename timeouts?
 
-    address private ERC20TokenAddress; //Address of the ERC20 Token we're distributing
+    // address private ERC20TokenAddress; //Address of the ERC20 Token we're distributing
+    IERC20 private token;
     address private requiredNFTAddress; // Address of the ERC721 Token required
     uint256 private faucetDripAmount; //Amount to be sent
     uint256 private timeout; //Timeout in minutes
@@ -21,22 +23,24 @@ contract S0brGame is Ownable {
     event commitedDay(address indexed _user, uint256 _timestamp);
 
     constructor(
-        address _ERC20TokenAddress,
+        // address _ERC20TokenAddress,
+        IERC20 _token,
         uint256 _faucetDripBase,
         uint256 _faucetDripDecimal,
         // uint256 _ERC20TokenMinimum,
         uint256 _timeout
     ) {
         // TODO - add in NFT address as param and save here
-        ERC20TokenAddress = _ERC20TokenAddress;
+        // ERC20TokenAddress = _ERC20TokenAddress;
+        token = _token;
         faucetDripAmount = _faucetDripBase * (10**_faucetDripDecimal); //Ether (or Native Token)
         // ERC20TokenMinimum = _ERC20TokenMinimum * (10**18); //300 ERC20 Tokens, assumes 18 decimals
         timeout = _timeout; //Timeout in minutes
     }
 
-    function getERC20TokenAddress() external view returns (address) {
-        return ERC20TokenAddress;
-    }
+    // function getERC20TokenAddress() external view returns (address) {
+    //     return ERC20TokenAddress;
+    // }
 
     function getRequiredNFTAddress() external view returns (address) {
         return requiredNFTAddress;
@@ -103,8 +107,9 @@ contract S0brGame is Ownable {
         // require(hasERC20Token(_to), "You Do Not Have Enough ERC20 tokens");
         require(hasRequiredNFT(_to), "You do not have the required NFT Token");
         timeouts[_to].push(block.timestamp);
-        (bool sent, ) = _to.call{value: faucetDripAmount}(""); // TODO - look at this. Make this send erc20 token instead of MATIC
-        require(sent, "Failed to send token");
+        // (bool sent, ) = _to.call{value: faucetDripAmount}(""); // TODO - look at this. Make this send erc20 token instead of MATIC
+        token.transfer(_to, faucetDripAmount);
+        // require(sent, "Failed to send token");
         emit commitedDay(_to, block.timestamp);
     }
 

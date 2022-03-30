@@ -23,7 +23,6 @@ describe("S0BR Game Test", function () {
 
     faucetDripBase = 1;
     faucetDripDecimal = 18;
-    // ERC20TokenMinimum = 300;
     timeout = 60;
 
     Faucet = await ethers.getContractFactory("S0brGame");
@@ -31,24 +30,20 @@ describe("S0BR Game Test", function () {
       s0brToken.address,
       faucetDripBase,
       faucetDripDecimal,
-      // ERC20TokenMinimum,
       timeout
     );
 
-    const transactionHashToken = await s0brToken.transfer(
-      addr1.address,
-      ethers.utils.parseEther("300")
-    );
+    s0brToken.transfer(faucet.address, ethers.utils.parseEther("2"));
   });
 
   describe("Faucet Supply", function () {
-    beforeEach(async function () {
-      // Send 100 ETH to the faucet to prime it
-      const transactionHash = await owner.sendTransaction({
-        to: faucet.address,
-        value: ethers.utils.parseEther("100.0"),
-      });
-    });
+    // beforeEach(async function () {
+    //   // Send 100 ETH to the faucet to prime it
+    //   const transactionHash = await owner.sendTransaction({
+    //     to: faucet.address,
+    //     value: ethers.utils.parseEther("100.0"),
+    //   });
+    // });
 
     it("Should have 100 Ethereum", async function () {
       const initialBalance = await faucet.getBalance();
