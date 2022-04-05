@@ -23,18 +23,14 @@ contract S0brGame is Ownable {
     event commitedDay(address indexed _user, uint256 _timestamp);
 
     constructor(
-        // address _ERC20TokenAddress,
         IERC20 _token,
         uint256 _faucetDripBase,
         uint256 _faucetDripDecimal,
-        // uint256 _ERC20TokenMinimum,
         uint256 _timeout
     ) {
         // TODO - add in NFT address as param and save here
-        // ERC20TokenAddress = _ERC20TokenAddress;
         token = _token;
-        faucetDripAmount = _faucetDripBase * (10**_faucetDripDecimal); //Ether (or Native Token)
-        // ERC20TokenMinimum = _ERC20TokenMinimum * (10**18); //300 ERC20 Tokens, assumes 18 decimals
+        faucetDripAmount = _faucetDripBase * (10**_faucetDripDecimal); // Native token
         timeout = _timeout; //Timeout in minutes
     }
 
@@ -54,12 +50,7 @@ contract S0brGame is Ownable {
         return timeout;
     }
 
-    // function getERC20TokenMinimum() external view returns(uint) {
-    //     // TODO - del me
-    //     return ERC20TokenMinimum;
-    // }
-
-    function getAddressTimeout(address _user)
+    function getAddressCommitments(address _user)
         external
         view
         returns (uint256[] memory)
@@ -74,16 +65,6 @@ contract S0brGame is Ownable {
     // TODO - Add function for saving the recent timeout
 
     // TODO - Add function for checking if it's too soon for a new check-in
-
-    // function hasERC20Token(address _user) public view returns(bool) {
-    //     // TODO - how do we do this for nft?
-    //     ERC20 instance = ERC20(ERC20TokenAddress);
-    //     if( instance.balanceOf(_user) >= ERC20TokenMinimum ) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
 
     function hasRequiredNFT(address _user) public view returns (bool) {
         return true; // debug
