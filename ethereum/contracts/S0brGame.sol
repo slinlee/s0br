@@ -3,14 +3,15 @@ pragma solidity ^0.8.0 <=0.9.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+// import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+
 import "hardhat/console.sol"; // debugging
 
-contract S0brGame is Ownable {
+contract S0brGame is OwnableUpgradeable {
     // TODO - add function to get number of commitments(saved days)
     // TODO - add setters
 
-    // address private ERC20TokenAddress; //Address of the ERC20 Token we're distributing
     IERC20 private token;
     address private requiredNFTAddress; // Address of the ERC721 Token required
     uint256 private faucetDripAmount; //Amount to be sent
@@ -20,21 +21,21 @@ contract S0brGame is Ownable {
     event sentTokens(address indexed _user, uint256 _timestamp);
     event commitedDay(address indexed _user, uint256 _timestamp);
 
-    constructor(
+    function initialize(
         IERC20 _token,
         uint256 _faucetDripBase,
         uint256 _faucetDripDecimal,
         uint256 _timeout
-    ) {
+    ) public initializer {
+        OwnableUpgradeable.__Ownable_init();
+
         // TODO - add in NFT address as param and save here
         token = _token;
         faucetDripAmount = _faucetDripBase * (10**_faucetDripDecimal); // Native token
         timeout = _timeout; //Timeout in minutes
     }
 
-    // function getERC20TokenAddress() external view returns (address) {
-    //     return ERC20TokenAddress;
-    // }
+    // constructor() initializer{}
 
     function getRequiredNFTAddress() external view returns (address) {
         return requiredNFTAddress;
@@ -48,7 +49,7 @@ contract S0brGame is Ownable {
         return timeout;
     }
 
-    function getAddressCommitments(address _user)
+    function getCommitments(address _user)
         external
         view
         returns (uint256[] memory)
@@ -65,7 +66,7 @@ contract S0brGame is Ownable {
     // TODO - Add function for checking if it's too soon for a new check-in
 
     function hasRequiredNFT(address _user) public view returns (bool) {
-        return true; // debug
+        // TODO - not used yet
         ERC721 instance = ERC721(requiredNFTAddress);
         if (instance.balanceOf(_user) >= 0) {
             return true;
@@ -76,7 +77,7 @@ contract S0brGame is Ownable {
 
     function faucet(address payable _to) external {
         require(
-            address(this).balance >= faucetDripAmount,
+            token.balanceOf(address(this)) >= faucetDripAmount,
             "Insufficient Faucet Funds"
         );
 
@@ -90,8 +91,7 @@ contract S0brGame is Ownable {
     }
 
     function getBalance() external view returns (uint256) {
-        // TODO - change this to show the ERC20 balance
-        return address(this).balance;
+        return token.balanceOf(address(this));
     }
 
     fallback() external payable {}

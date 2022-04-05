@@ -4,6 +4,7 @@ specifiers:
   '@nomiclabs/hardhat-ethers': ^2.0.5
   '@nomiclabs/hardhat-waffle': ^2.0.3
   '@openzeppelin/contracts': ^4.5.0
+  '@openzeppelin/contracts-upgradeable': ^4.5.2
   '@openzeppelin/hardhat-upgrades': ^1.16.1
   chai: ^4.3.6
   dotenv: ^16.0.0
@@ -15,6 +16,7 @@ specifiers:
   typescript: ^4.6.2
 
 dependencies:
+  '@openzeppelin/contracts-upgradeable': 4.5.2
   dotenv: 16.0.0
 
 devDependencies:
@@ -550,6 +552,10 @@ packages:
       ethers: 5.6.1
       hardhat: 2.9.1
     dev: true
+
+  /@openzeppelin/contracts-upgradeable/4.5.2:
+    resolution: {integrity: sha512-xgWZYaPlrEOQo3cBj97Ufiuv79SPd8Brh4GcFYhPgb6WvAq4ppz8dWKL6h+jLAK01rUqMRp/TS9AdXgAeNvCLA==}
+    dev: false
 
   /@openzeppelin/contracts/4.5.0:
     resolution: {integrity: sha512-fdkzKPYMjrRiPK6K4y64e6GzULR7R7RwxSigHS8DDp7aWDeoReqsQI+cxHV1UuhAqX69L1lAaWDxenfP+xiqzA==}

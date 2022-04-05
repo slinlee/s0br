@@ -13,7 +13,6 @@ describe("S0BR Game Test", function () {
   let addrs;
   let faucetDripBase;
   let faucetDripDecimal;
-  // let ERC20TokenMinimum;
   let timeout;
 
   beforeEach(async function () {
@@ -26,12 +25,12 @@ describe("S0BR Game Test", function () {
     timeout = 60;
 
     Faucet = await ethers.getContractFactory("S0brGame");
-    faucet = await Faucet.deploy(
+    faucet = await upgrades.deployProxy(Faucet, [
       s0brToken.address,
       faucetDripBase,
       faucetDripDecimal,
-      timeout
-    );
+      timeout,
+    ]);
 
     s0brToken.transfer(faucet.address, ethers.utils.parseEther("2"));
   });
@@ -85,13 +84,6 @@ describe("S0BR Game Test", function () {
       const currentTimeout = await faucet.getTimeout();
       expect(currentTimeout).to.equal(timeout);
     });
-
-    // it("Should return the accurate ERC20 Token Minimum", async function () {
-    //   const currentERC20TokenMinimum = await faucet.getERC20TokenMinimum();
-    //   expect(String(currentERC20TokenMinimum)).to.equal(
-    //     String(ERC20TokenMinimum * 10 ** 18)
-    //   );
-    // });
 
     it("Should not send funds if there are no tokens to give", async function () {
       await expect(faucet.faucet(addr1.address)).to.be.revertedWith(
