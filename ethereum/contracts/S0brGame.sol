@@ -7,17 +7,15 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol"; // debugging
 
 contract S0brGame is Ownable {
-    // TODO - add function to get number of timeouts (saved days)
+    // TODO - add function to get number of commitments(saved days)
     // TODO - add setters
-    // TODO - rename timeouts?
 
     // address private ERC20TokenAddress; //Address of the ERC20 Token we're distributing
     IERC20 private token;
     address private requiredNFTAddress; // Address of the ERC721 Token required
     uint256 private faucetDripAmount; //Amount to be sent
     uint256 private timeout; //Timeout in minutes
-    // uint256 private ERC20TokenMinimum; //Minimum amount of tokens needs to be considered for this faucet // TODO - del me
-    mapping(address => uint256[]) timeouts; //Time of last faucet drip per address
+    mapping(address => uint256[]) commitments; //Time of last faucet drip per address
 
     event sentTokens(address indexed _user, uint256 _timestamp);
     event commitedDay(address indexed _user, uint256 _timestamp);
@@ -55,8 +53,8 @@ contract S0brGame is Ownable {
         view
         returns (uint256[] memory)
     {
-        if (timeouts[_user].length > 0) {
-            return timeouts[_user];
+        if (commitments[_user].length > 0) {
+            return commitments[_user];
         } else {
             return new uint256[](0);
         }
@@ -82,15 +80,12 @@ contract S0brGame is Ownable {
             "Insufficient Faucet Funds"
         );
 
-        // console.log("timeouts ", timeouts[_to][timeouts[_to].length - 1]); // debug
-        // require(timeouts[_to][timeouts[_to].length - 1] <= block.timestamp - (timeout * 1 minutes), "Too Early for Another Faucet Drop");
+        // console.log("commitments ", commitments[_to][commitments[_to].length - 1]); // debug
+        // require(commitments[_to]commitments[_to].length - 1] <= block.timestamp - (timeout * 1 minutes), "Too Early for Another Faucet Drop");
 
-        // require(hasERC20Token(_to), "You Do Not Have Enough ERC20 tokens");
-        require(hasRequiredNFT(_to), "You do not have the required NFT Token");
-        timeouts[_to].push(block.timestamp);
-        // (bool sent, ) = _to.call{value: faucetDripAmount}(""); // TODO - look at this. Make this send erc20 token instead of MATIC
+        // require(hasRequiredNFT(_to), "You do not have the required NFT Token");
+        commitments[_to].push(block.timestamp);
         token.transfer(_to, faucetDripAmount);
-        // require(sent, "Failed to send token");
         emit commitedDay(_to, block.timestamp);
     }
 
