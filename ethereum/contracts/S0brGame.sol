@@ -19,7 +19,7 @@ contract S0brGame is OwnableUpgradeable {
     mapping(address => uint256[]) commitments; //Time of last faucet drip per address
 
     event sentTokens(address indexed _user, uint256 _timestamp);
-    event commitedDay(address indexed _user, uint256 _timestamp);
+    event madeCommitment(address indexed _user, uint256 _timestamp);
 
     function initialize(
         IERC20 _token,
@@ -87,7 +87,8 @@ contract S0brGame is OwnableUpgradeable {
         // require(hasRequiredNFT(_to), "You do not have the required NFT Token");
         commitments[_to].push(block.timestamp);
         token.transfer(_to, faucetDripAmount);
-        emit commitedDay(_to, block.timestamp);
+        emit madeCommitment(_to, block.timestamp);
+        emit sentTokens(_to, block.timestamp);
     }
 
     function getBalance() external view returns (uint256) {
