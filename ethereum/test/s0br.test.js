@@ -75,6 +75,7 @@ describe("S0BR Game Test", function () {
     it("Should return the accurate Faucet Drip Amount", async function () {
       const currentFaucetDripAmount = await faucet.getFaucetDripAmount();
       const varFaucetDripAmount = faucetDripBase * 10 ** faucetDripDecimal;
+
       expect(String(currentFaucetDripAmount)).to.equal(
         String(varFaucetDripAmount)
       );
@@ -90,29 +91,20 @@ describe("S0BR Game Test", function () {
         "Insufficient Faucet Funds"
       );
 
-      const transactionHash0 = await owner.sendTransaction({
-        to: faucet.address,
-        value: ethers.utils.parseEther("0.5"),
-      });
+      await s0brToken.transfer(faucet.address, ethers.utils.parseEther("0.5"));
 
       await expect(faucet.faucet(addr1.address)).to.be.revertedWith(
         "Insufficient Faucet Funds"
       );
 
-      const transactionHash1 = await owner.sendTransaction({
-        to: faucet.address,
-        value: ethers.utils.parseEther("0.5"),
-      });
+      await s0brToken.transfer(faucet.address, ethers.utils.parseEther("0.5"));
 
       await faucet.faucet(addr1.address); // Success
     });
 
     it("Should Send 1 Token to Person Who Asks", async function () {
-      // Send 100 ETH to the faucet to prime it
-      const transactionHash = await owner.sendTransaction({
-        to: faucet.address,
-        value: ethers.utils.parseEther("100.0"),
-      });
+      // Send 100 tokens to the faucet to prime it
+      await s0brToken.transfer(faucet.address, ethers.utils.parseEther("100"));
 
       const addr1InitialBalance = await addr1.getBalance();
 
@@ -132,11 +124,8 @@ describe("S0BR Game Test", function () {
       // Check in at 10 pm, then next day at 7 am <- pass
       // Check in at 7 am, then same day at 10 pm <- fail
 
-      // Send 100 ETH to the faucet to prime it
-      const transactionHash = await owner.sendTransaction({
-        to: faucet.address,
-        value: ethers.utils.parseEther("100.0"),
-      });
+      // Send 100 tokens to the faucet to prime it
+      await s0brToken.transfer(faucet.address, ethers.utils.parseEther("100"));
 
       await faucet.faucet(addr1.address); //Success
       await expect(faucet.faucet(addr1.address)).to.be.revertedWith(
@@ -153,11 +142,8 @@ describe("S0BR Game Test", function () {
     });
 
     it("Should not send tokens if there is insufficient ERC20 tokens", async function () {
-      // Send 100 ETH to the faucet to prime it
-      const transactionHash = await owner.sendTransaction({
-        to: faucet.address,
-        value: ethers.utils.parseEther("100.0"),
-      });
+      // Send 100 tokens to the faucet to prime it
+      await s0brToken.transfer(faucet.address, ethers.utils.parseEther("100"));
 
       await expect(faucet.faucet(addr2.address)).to.be.revertedWith(
         "You Do Not Have Enough ERC20 tokens"
@@ -183,11 +169,8 @@ describe("S0BR Game Test", function () {
     it("Should check if the timeout is present after a faucet call is made", async function () {
       // TODO - convert how timeout is saved
 
-      // Send 100 ETH to the faucet to prime it
-      const transactionHash = await owner.sendTransaction({
-        to: faucet.address,
-        value: ethers.utils.parseEther("100.0"),
-      });
+      // Send 100 tokens to the faucet to prime it
+      await s0brToken.transfer(faucet.address, ethers.utils.parseEther("100"));
 
       const preFaucetTimeout = await faucet.getCommitments(addr1.address);
 
@@ -201,11 +184,8 @@ describe("S0BR Game Test", function () {
     });
 
     it("Should emit an event once a transfer is made", async function () {
-      // Send 100 ETH to the faucet to prime it
-      const transactionHash = await owner.sendTransaction({
-        to: faucet.address,
-        value: ethers.utils.parseEther("100.0"),
-      });
+      // Send 100 tokens to the faucet to prime it
+      await s0brToken.transfer(faucet.address, ethers.utils.parseEther("100"));
 
       async function getCurrentBlockTimestamp() {
         const currentBlockNumber = await ethers.provider.getBlockNumber();
