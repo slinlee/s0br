@@ -34,7 +34,7 @@ contract S0brGame is OwnableUpgradeable {
         timeout = _timeout; //Timeout in minutes
     }
 
-    // constructor() initializer{}
+    constructor() initializer {}
 
     function getRequiredNFTAddress() external view returns (address) {
         return requiredNFTAddress;
