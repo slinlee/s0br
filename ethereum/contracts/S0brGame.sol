@@ -18,7 +18,6 @@ contract S0brGame is OwnableUpgradeable {
     uint256 private timeout; //Timeout in minutes
     mapping(address => uint256[]) commitments; //Time of last faucet drip per address
 
-    event sentTokens(address indexed _user, uint256 _timestamp);
     event madeCommitment(address indexed _user, uint256 _timestamp);
 
     function initialize(
@@ -101,7 +100,6 @@ contract S0brGame is OwnableUpgradeable {
         commitments[_to].push(block.timestamp);
         token.transfer(_to, faucetDripAmount);
         emit madeCommitment(_to, block.timestamp);
-        emit sentTokens(_to, block.timestamp);
     }
 
     function getBalance() external view returns (uint256) {

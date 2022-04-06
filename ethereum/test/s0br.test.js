@@ -197,9 +197,6 @@ describe("S0BR Game Test", function () {
       }
 
       expect(await faucet.faucet(addr1.address))
-        .to.emit(faucet, "sentTokens")
-        .withArgs(addr1.address, await getCurrentBlockTimestamp());
-      expect(await faucet.faucet(addr1.address))
         .to.emit(faucet, "madeCommitment")
         .withArgs(addr1.address, await getCurrentBlockTimestamp());
     });
