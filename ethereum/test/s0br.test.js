@@ -129,42 +129,43 @@ describe("S0BR Game Test", function () {
 
       await faucet.faucet(addr1.address); //Success
       await expect(faucet.faucet(addr1.address)).to.be.revertedWith(
-        "Too Early for Another Faucet Drop"
+        "Too early to commit again"
       ); //Failure
 
       await network.provider.send("evm_increaseTime", [60 * 30]); // 60 seconds times 30
       await expect(faucet.faucet(addr1.address)).to.be.revertedWith(
-        "Too Early for Another Faucet Drop"
+        "Too early to commit again"
       ); //Failure
 
       await network.provider.send("evm_increaseTime", [60 * 30]);
       await faucet.faucet(addr1.address); //Success
     });
 
-    it("Should not send tokens if there is insufficient ERC20 tokens", async function () {
-      // Send 100 tokens to the faucet to prime it
-      await s0brToken.transfer(faucet.address, ethers.utils.parseEther("100"));
+    // TODO - convert this to test if user has NFT
+    // it("Should not send tokens if there is insufficient ERC20 tokens", async function () {
+    //   // Send 100 tokens to the faucet to prime it
+    //   await s0brToken.transfer(faucet.address, ethers.utils.parseEther("100"));
 
-      await expect(faucet.faucet(addr2.address)).to.be.revertedWith(
-        "You Do Not Have Enough ERC20 tokens"
-      ); //Fail
+    //   await expect(faucet.faucet(addr2.address)).to.be.revertedWith(
+    //     "You Do Not Have Enough ERC20 tokens"
+    //   ); //Fail
 
-      const transactionHashToken0 = await s0brToken.transfer(
-        addr2.address,
-        ethers.utils.parseEther("100")
-      );
+    //   const transactionHashToken0 = await s0brToken.transfer(
+    //     addr2.address,
+    //     ethers.utils.parseEther("100")
+    //   );
 
-      await expect(faucet.faucet(addr2.address)).to.be.revertedWith(
-        "You Do Not Have Enough ERC20 tokens"
-      ); //Fail
+    //   await expect(faucet.faucet(addr2.address)).to.be.revertedWith(
+    //     "You Do Not Have Enough ERC20 tokens"
+    //   ); //Fail
 
-      const transactionHashToken1 = await s0brToken.transfer(
-        addr2.address,
-        ethers.utils.parseEther("200")
-      );
+    //   const transactionHashToken1 = await s0brToken.transfer(
+    //     addr2.address,
+    //     ethers.utils.parseEther("200")
+    //   );
 
-      await faucet.faucet(addr2.address); //Success
-    });
+    //   await faucet.faucet(addr2.address); //Success
+    // });
 
     it("Should check if the timeout is present after a faucet call is made", async function () {
       // TODO - convert how timeout is saved
@@ -198,28 +199,9 @@ describe("S0BR Game Test", function () {
       expect(await faucet.faucet(addr1.address))
         .to.emit(faucet, "sentTokens")
         .withArgs(addr1.address, await getCurrentBlockTimestamp());
+      expect(await faucet.faucet(addr1.address))
+        .to.emit(faucet, "madeCommitment")
+        .withArgs(addr1.address, await getCurrentBlockTimestamp());
     });
-
-    // it("Should not allowed non-verified accounts to run the faucet", async function () {
-    //   // Send 100 ETH to the faucet to prime it
-    //   const transactionHash = await owner.sendTransaction({
-    //     to: faucet.address,
-    //     value: ethers.utils.parseEther("100.0"),
-    //   });
-
-    //   await expect(
-    //     faucet.connect(addr1).faucet(addr1.address)
-    //   ).to.be.revertedWith("Not Verified to Run Faucet");
-
-    //   await faucet.verifyRunner(addr1.address);
-
-    //   await faucet.connect(addr1).faucet(addr1.address);
-
-    //   await faucet.removeRunner(addr1.address);
-
-    //   await expect(
-    //     faucet.connect(addr1).faucet(addr1.address)
-    //   ).to.be.revertedWith("Not Verified to Run Faucet");
-    // });
   });
 });
