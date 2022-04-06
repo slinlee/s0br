@@ -7,6 +7,9 @@
   let balance;
   let network;
 
+  const tokenAddress = "0xbd18ec69715668C942Ad9E87Ed42081bB27b67B0";
+  export let tokenContract;
+
   async function connectWallet() {
     walletConnected = false;
     const { ethereum } = window;
@@ -16,7 +19,7 @@
         const [firstAccount] = accountList;
         account = firstAccount;
         walletConnected = true;
-        getBalance(account);
+        getBalance();
         getNetwork();
         console.log("wallet connected");
         console.log(account);
@@ -28,11 +31,21 @@
       });
   }
 
-  async function getBalance(account) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const bal = await provider.getBalance(account);
-
-    balance = ethers.utils.formatEther(bal);
+  async function getBalance() {
+    if (typeof window.ethereum !== "undefined") {
+      const [account] = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        tokenAddress,
+        tokenContract.abi,
+        signer
+      );
+      const bal = await contract.balanceOf(account);
+      balance = ethers.utils.formatEther(bal);
+    }
   }
 
   async function getNetwork() {
