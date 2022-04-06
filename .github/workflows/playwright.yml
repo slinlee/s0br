@@ -8,6 +8,8 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      MUMBAI_PRIVATE_KEY: ${{ secrets.MUMBAI_PRIVATE_KEY }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
