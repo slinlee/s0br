@@ -1,8 +1,8 @@
 <script>
   async function addToken() {
     // Placeholder token from the example
-    const tokenAddress = "0xd00981105e61274c8a5cd5a88fe7e037d935b513";
-    const tokenSymbol = "TUT";
+    const tokenAddress = "0xbd18ec69715668C942Ad9E87Ed42081bB27b67B0";
+    const tokenSymbol = "S0BR";
     const tokenDecimals = 18;
     const tokenImage = "http://placekitten.com/200/300";
     const { ethereum } = window;
@@ -20,12 +20,6 @@
           },
         },
       });
-
-      if (wasAdded) {
-        console.log("Thanks for your interest!");
-      } else {
-        console.log("Your loss!");
-      }
     } catch (error) {
       console.log(error);
     }
