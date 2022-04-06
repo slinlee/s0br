@@ -31,8 +31,6 @@ describe("S0BR Game Test", function () {
       faucetDripDecimal,
       timeout,
     ]);
-
-    s0brToken.transfer(owner.address, ethers.utils.parseEther("2"));
   });
 
   describe("Faucet Supply", function () {
@@ -42,6 +40,8 @@ describe("S0BR Game Test", function () {
         faucet.address,
         ethers.utils.parseEther("2")
       );
+
+      await s0brToken.transfer(addr1.address, ethers.utils.parseEther("50"));
     });
 
     it("Should have 2 erc20 tokens", async function () {
@@ -52,11 +52,9 @@ describe("S0BR Game Test", function () {
     it("Should increase if another person sends tokens", async function () {
       const initialBalance = await faucet.getBalance();
 
-      const tx = await s0brToken.transferFrom(
-        owner.address,
-        faucet.address,
-        ethers.utils.parseEther("1.0")
-      );
+      const tx = await s0brToken
+        .connect(addr1)
+        .transfer(faucet.address, ethers.utils.parseEther("1.0"));
 
       const newBalance = await faucet.getBalance();
       expect(newBalance).to.equal(
