@@ -40,8 +40,6 @@ describe("S0BR Game Test", function () {
         faucet.address,
         ethers.utils.parseEther("2")
       );
-
-      await s0brToken.transfer(addr1.address, ethers.utils.parseEther("50"));
     });
 
     it("Should have 2 erc20 tokens", async function () {
@@ -51,6 +49,7 @@ describe("S0BR Game Test", function () {
 
     it("Should increase if another person sends tokens", async function () {
       const initialBalance = await faucet.getBalance();
+      await s0brToken.transfer(addr1.address, ethers.utils.parseEther("50"));
 
       const tx = await s0brToken
         .connect(addr1)
@@ -105,15 +104,16 @@ describe("S0BR Game Test", function () {
     it("Should Send 1 Token to Person Who Asks", async function () {
       // Send 100 tokens to the faucet to prime it
       await s0brToken.transfer(faucet.address, ethers.utils.parseEther("100"));
+      const currentFaucetDripAmount = await faucet.getFaucetDripAmount();
 
-      const addr1InitialBalance = await addr1.getBalance();
+      const addr1InitialBalance = await s0brToken.balanceOf(addr1.address);
 
       await faucet.faucet(addr1.address);
 
-      const addr1NewBalance = await addr1.getBalance();
+      const addr1NewBalance = await s0brToken.balanceOf(addr1.address);
 
       expect(addr1NewBalance).to.equal(
-        addr1InitialBalance.add(ethers.utils.parseEther("1.0"))
+        addr1InitialBalance.add(currentFaucetDripAmount)
       );
     });
 
