@@ -32,29 +32,31 @@ describe("S0BR Game Test", function () {
       timeout,
     ]);
 
-    s0brToken.transfer(faucet.address, ethers.utils.parseEther("2"));
+    s0brToken.transfer(owner.address, ethers.utils.parseEther("2"));
   });
 
   describe("Faucet Supply", function () {
-    // beforeEach(async function () {
-    //   // Send 100 ETH to the faucet to prime it
-    //   const transactionHash = await owner.sendTransaction({
-    //     to: faucet.address,
-    //     value: ethers.utils.parseEther("100.0"),
-    //   });
-    // });
+    beforeEach(async function () {
+      // Send 2 s0brToken to the faucet to prime it
+      const transactionHash = await s0brToken.transfer(
+        faucet.address,
+        ethers.utils.parseEther("2")
+      );
+    });
 
-    it("Should have 100 Ethereum", async function () {
+    it("Should have 2 erc20 tokens", async function () {
       const initialBalance = await faucet.getBalance();
-      expect(initialBalance).to.equal(ethers.utils.parseEther("100"));
+      expect(initialBalance).to.equal(ethers.utils.parseEther("2"));
     });
 
     it("Should increase if another person sends tokens", async function () {
       const initialBalance = await faucet.getBalance();
-      const tx = await addr1.sendTransaction({
-        to: faucet.address,
-        value: ethers.utils.parseEther("1.0"),
-      });
+
+      const tx = await s0brToken.transferFrom(
+        owner.address,
+        faucet.address,
+        ethers.utils.parseEther("1.0")
+      );
 
       const newBalance = await faucet.getBalance();
       expect(newBalance).to.equal(
@@ -66,11 +68,11 @@ describe("S0BR Game Test", function () {
   describe("Faucet", function () {
     // TODO - check if user has requiredNFT
 
-    it("Should return the accurate tokenAddress", async function () {
-      const currenERC20TokenAddress = await faucet.getERC20TokenAddress();
-      const deployedERC20TokenAddress = await s0brToken.address;
-      expect(currenERC20TokenAddress).to.equal(deployedERC20TokenAddress);
-    });
+    // it("Should return the accurate tokenAddress", async function () {
+    //   const currenERC20TokenAddress = await faucet.getERC20TokenAddress();
+    //   const deployedERC20TokenAddress = await s0brToken.address;
+    //   expect(currenERC20TokenAddress).to.equal(deployedERC20TokenAddress);
+    // });
 
     it("Should return the accurate Faucet Drip Amount", async function () {
       const currentFaucetDripAmount = await faucet.getFaucetDripAmount();
@@ -189,11 +191,11 @@ describe("S0BR Game Test", function () {
         value: ethers.utils.parseEther("100.0"),
       });
 
-      const preFaucetTimeout = await faucet.getAddressTimeout(addr1.address);
+      const preFaucetTimeout = await faucet.getCommitments(addr1.address);
 
       await faucet.faucet(addr1.address);
 
-      const postFaucetTimeout = await faucet.getAddressTimeout(addr1.address);
+      const postFaucetTimeout = await faucet.getCommitments(addr1.address);
 
       // expect(preFaucetTimeout).to.be.below(postFaucetTimeout);
       // TODO - also check the value is later
