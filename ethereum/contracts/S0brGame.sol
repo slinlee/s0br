@@ -61,6 +61,15 @@ contract S0brGame is OwnableUpgradeable {
         }
     }
 
+    function getLatestCommitment(address _user) public view returns (uint256) {
+        uint256 numCommits = commitments[_user].length;
+        if (numCommits > 0) {
+            return commitments[_user][numCommits - 1];
+        } else {
+            return 0;
+        }
+    }
+
     // TODO - Add function for saving the recent timeout
 
     // TODO - Add function for checking if it's too soon for a new check-in
@@ -81,9 +90,13 @@ contract S0brGame is OwnableUpgradeable {
             "Insufficient Faucet Funds"
         );
 
-        // console.log("commitments ", commitments[_to][commitments[_to].length - 1]); // debug
-        // require(commitments[_to]commitments[_to].length - 1] <= block.timestamp - (timeout * 1 minutes), "Too Early for Another Faucet Drop");
+        require(
+            getLatestCommitment(_to) <=
+                (block.timestamp - (timeout * 1 minutes)),
+            "Too early to commit again"
+        );
 
+        // TODO - add requirement that user has NFT
         // require(hasRequiredNFT(_to), "You do not have the required NFT Token");
         commitments[_to].push(block.timestamp);
         token.transfer(_to, faucetDripAmount);
