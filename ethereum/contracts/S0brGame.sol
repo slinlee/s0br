@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 // import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 
 import "hardhat/console.sol"; // debugging
 
@@ -70,9 +71,21 @@ contract S0brGame is OwnableUpgradeable {
     }
 
     function checkTimeout(address _user) private view returns (bool) {
-        return
-            getLatestCommitment(_user) <=
-            (block.timestamp - (timeout * 1 minutes));
+        uint256 lastCommit = getLatestCommitment(_user);
+
+        uint256 timeZoneConversion = (7 * 60 * 60); // Hardcoded for PST right now
+
+        uint256 nextDayForUser = lastCommit - timeZoneConversion + 1 days;
+
+        // Find the next midnight
+        // convert from seconds to day and then round up to get the next midnight
+        nextDayForUser = Math.ceilDiv(nextDayForUser, 60 * 60 * 24);
+        // convert back to seconds
+        nextDayForUser = nextDayForUser * 60 * 60 * 24;
+        // convert back to UTC
+        nextDayForUser = nextDayForUser + timeZoneConversion;
+
+        return nextDayForUser <= (block.timestamp);
     }
 
     function hasRequiredNFT(address _user) public view returns (bool) {
