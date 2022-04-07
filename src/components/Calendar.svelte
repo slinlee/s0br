@@ -36,8 +36,6 @@
   }
 </script>
 
-<div on:click={getCommitments} class="col-start-4">load</div>
-
 <div
   class="px-6 md:col-start-3 md:col-end-11 lg:col-start-4 lg:col-end-10"
   data-test="calendar"
@@ -57,3 +55,5 @@
     view={"monthly"}
   />
 </div>
+
+<div on:click={getCommitments} class="col-start-4">load</div>
