@@ -20,6 +20,7 @@
         account = firstAccount;
         walletConnected = true;
         getBalance();
+
         getNetwork();
         console.log("wallet connected");
         console.log(account);
