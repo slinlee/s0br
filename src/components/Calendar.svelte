@@ -25,40 +25,35 @@
         signer
       );
       data = await contract.getCommitments(account);
-      console.table(data); // debug
       data.forEach((item) => {
-        console.log(item); // debug
-        if (item !== 0) {
-          cleanedData = [
-            ...cleanedData,
-            { date: toDate(item.toNumber() * 1000), value: 1 },
-          ];
-        }
+        cleanedData = [
+          ...cleanedData,
+          { date: toDate(item.toNumber() * 1000), value: 1 },
+        ];
       });
-      console.table(cleanedData); // debug
     }
     return cleanedData;
   }
 </script>
 
-<div on:click={getCommitments}>load</div>
+<div on:click={getCommitments} class="col-start-4">load</div>
 
 <div
   class="px-6 md:col-start-3 md:col-end-11 lg:col-start-4 lg:col-end-10"
   data-test="calendar"
 >
   <SvelteHeatmap
-    allowOverflow={true}
+    allowOverflow={false}
     cellGap={5}
     cellRadius={1}
     endDate={new Date()}
     colors={["#a1dab4", "#42b6c4", "#2c7fb9", "#263494"]}
-    data={[]}
+    data={cleanedData}
     dayLabelWidth={0}
     emptyColor={"#ecedf0"}
     monthGap={20}
     monthLabelHeight={0}
-    startDate={sub(new Date(), { years: 1 })}
+    startDate={sub(new Date(), { months: 1 })}
     view={"monthly"}
   />
 </div>
