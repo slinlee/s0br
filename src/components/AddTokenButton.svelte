@@ -4,7 +4,7 @@
     const tokenAddress = "0xbd18ec69715668C942Ad9E87Ed42081bB27b67B0";
     const tokenSymbol = "S0BR";
     const tokenDecimals = 18;
-    const tokenImage = "http://placekitten.com/200/300";
+    const tokenImage = "https://s0br.today/s0brtoken.png";
     const { ethereum } = window;
     try {
       // wasAdded is a boolean. Like any RPC method, an error may be thrown.
