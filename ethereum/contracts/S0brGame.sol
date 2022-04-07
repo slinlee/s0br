@@ -69,9 +69,11 @@ contract S0brGame is OwnableUpgradeable {
         }
     }
 
-    // TODO - Add function for saving the recent timeout
-
-    // TODO - Add function for checking if it's too soon for a new check-in
+    function checkTimeout(address _user) private view returns (bool) {
+        return
+            getLatestCommitment(_user) <=
+            (block.timestamp - (timeout * 1 minutes));
+    }
 
     function hasRequiredNFT(address _user) public view returns (bool) {
         // TODO - not used yet
@@ -89,11 +91,7 @@ contract S0brGame is OwnableUpgradeable {
             "Insufficient Faucet Funds"
         );
 
-        require(
-            getLatestCommitment(_to) <=
-                (block.timestamp - (timeout * 1 minutes)),
-            "Too early to commit again"
-        );
+        require(checkTimeout(_to), "Too early to commit again");
 
         // TODO - add requirement that user has NFT
         // require(hasRequiredNFT(_to), "You do not have the required NFT Token");
