@@ -5,6 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 // import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 
 import "hardhat/console.sol"; // debugging
 
@@ -69,9 +70,27 @@ contract S0brGame is OwnableUpgradeable {
         }
     }
 
-    // TODO - Add function for saving the recent timeout
+    function isNextDayForUser(address _user) private view returns (bool) {
+        uint256 lastCommit = getLatestCommitment(_user);
 
-    // TODO - Add function for checking if it's too soon for a new check-in
+        if (lastCommit == 0) {
+            return true;
+        }
+
+        uint256 timeZoneConversion = (7 * 60 * 60); // Hardcoded for PST right now
+
+        uint256 nextDayForUser = lastCommit - timeZoneConversion;
+
+        // Find the next midnight
+        // convert from seconds to day and then round up to get the next midnight
+        nextDayForUser = Math.ceilDiv(nextDayForUser, 60 * 60 * 24);
+        // convert back to seconds
+        nextDayForUser = nextDayForUser * 60 * 60 * 24;
+        // convert back to UTC
+        nextDayForUser = nextDayForUser + timeZoneConversion;
+
+        return nextDayForUser <= (block.timestamp);
+    }
 
     function hasRequiredNFT(address _user) public view returns (bool) {
         // TODO - not used yet
@@ -89,11 +108,7 @@ contract S0brGame is OwnableUpgradeable {
             "Insufficient Faucet Funds"
         );
 
-        require(
-            getLatestCommitment(_to) <=
-                (block.timestamp - (timeout * 1 minutes)),
-            "Too early to commit again"
-        );
+        require(isNextDayForUser(_to), "Too early to commit again");
 
         // TODO - add requirement that user has NFT
         // require(hasRequiredNFT(_to), "You do not have the required NFT Token");
