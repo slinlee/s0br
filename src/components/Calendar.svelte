@@ -1,6 +1,7 @@
 <script lang="ts">
   import { toDate, add, sub, isBefore } from "date-fns";
   import SvelteHeatmap from "svelte-heatmap";
+  import { browser } from "$app/env";
 
   import { ethers } from "ethers";
   import S0brGame from "../routes/contracts/S0brGame.sol/S0brGame.json";
@@ -13,7 +14,7 @@
 
     let data = [];
 
-    if (typeof window?.ethereum !== "undefined") {
+    if (browser && typeof window.ethereum !== "undefined") {
       const [account] = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
@@ -33,6 +34,10 @@
       });
     }
     return cleanedData;
+  }
+
+  if (browser) {
+    getCommitments();
   }
 </script>
 
@@ -55,5 +60,3 @@
     view={"monthly"}
   />
 </div>
-
-<div on:click={getCommitments} class="col-start-4">load</div>
