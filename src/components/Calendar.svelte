@@ -2,7 +2,7 @@
   import { toDate, add, sub, isBefore } from "date-fns";
   import SvelteHeatmap from "svelte-heatmap";
 
-  import { BigNumber, ethers } from "ethers";
+  import { ethers } from "ethers";
   import S0brGame from "../routes/contracts/S0brGame.sol/S0brGame.json";
 
   let cleanedData = [];
@@ -39,34 +39,6 @@
     }
     return cleanedData;
   }
-
-  // const data = getCommitments();
-
-  // // Generate a random number
-  // function rand(min, max) {
-  //   return Math.floor(Math.random() * (max - min + 1)) + min;
-  // }
-
-  // Generate dummy data for a heatmap
-  // function generateFakeData() {
-  //   const data = [];
-  //   const now = new Date();
-  //   let date = sub(now, { years: 1 });
-
-  //   while (isBefore(date, now)) {
-  //     data.push({
-  //       date,
-  //       value: rand(0, 1),
-  //     });
-
-  //     date = add(date, { days: 1 });
-  //   }
-
-  //   return data;
-  // }
-
-  // const fakeData = generateFakeData();
-  // console.table(fakeData); // debug
 </script>
 
 <div on:click={getCommitments}>load</div>
@@ -79,6 +51,7 @@
     allowOverflow={true}
     cellGap={5}
     cellRadius={1}
+    endDate={new Date()}
     colors={["#a1dab4", "#42b6c4", "#2c7fb9", "#263494"]}
     data={[]}
     dayLabelWidth={0}
