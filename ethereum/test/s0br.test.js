@@ -117,27 +117,28 @@ describe("S0BR Game Test", function () {
       );
     });
 
-    it("Should Not Send Ether before Timeout, but should after the timeout", async function () {
-      // TODO - add in different scenarios for "1 day passing"
-      // Check in at 10 am, then next day at 7 am <- pass
-      // Check in at 7 am, then next day at 10 am <- pass
-      // Check in at 10 pm, then next day at 7 am <- pass
-      // Check in at 7 am, then same day at 10 pm <- fail
-
+    it("Should Not Send Ether the same day, but should the next day", async function () {
+      // IMPT - this assumes PST timezone
       // Send 100 tokens to the faucet to prime it
       await s0brToken.transfer(faucet.address, ethers.utils.parseEther("100"));
 
+      // Check in at 7 am, then next day at 10 am <- pass
+      // 7 am
+      await network.provider.send("evm_setNextBlockTimestamp", [1964959200]);
       await faucet.faucet(addr1.address); //Success
+
+      // 7 pm
+      await network.provider.send("evm_setNextBlockTimestamp", [1965002400]);
       await expect(faucet.faucet(addr1.address)).to.be.revertedWith(
         "Too early to commit again"
       ); //Failure
 
-      await network.provider.send("evm_increaseTime", [60 * 30]); // 60 seconds times 30
-      await expect(faucet.faucet(addr1.address)).to.be.revertedWith(
-        "Too early to commit again"
-      ); //Failure
+      // 10 am next day
+      await network.provider.send("evm_setNextBlockTimestamp", [1965056400]);
+      await faucet.faucet(addr1.address); //Success
 
-      await network.provider.send("evm_increaseTime", [60 * 30]);
+      // 8 am next next day
+      await network.provider.send("evm_setNextBlockTimestamp", [1965135600]);
       await faucet.faucet(addr1.address); //Success
     });
 

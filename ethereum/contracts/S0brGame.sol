@@ -79,7 +79,7 @@ contract S0brGame is OwnableUpgradeable {
 
         uint256 timeZoneConversion = (7 * 60 * 60); // Hardcoded for PST right now
 
-        uint256 nextDayForUser = lastCommit - timeZoneConversion + 1 days;
+        uint256 nextDayForUser = lastCommit - timeZoneConversion;
 
         // Find the next midnight
         // convert from seconds to day and then round up to get the next midnight
