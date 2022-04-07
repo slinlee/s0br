@@ -8,6 +8,9 @@
   const Token = S0brToken;
 </script>
 
+<head>
+  <title>S0BR</title>
+</head>
 <div class="grid grid-cols-1 md:grid-cols-12">
   <Wallet tokenContract={Token} />
   <h1 class="col-span-12 text-3xl py-20 place-self-center">Welcome to S0BR</h1>
