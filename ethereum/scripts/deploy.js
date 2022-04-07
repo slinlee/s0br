@@ -13,7 +13,7 @@ async function main() {
     faucetDripBase,
     faucetDripDecimal,
     timeout,
-  ]); // TODO check this line
+  ]);
   await game.deployed();
   console.log("Game deployed to: ", game.address);
 }
