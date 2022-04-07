@@ -70,8 +70,12 @@ contract S0brGame is OwnableUpgradeable {
         }
     }
 
-    function checkTimeout(address _user) private view returns (bool) {
+    function isNextDayForUser(address _user) private view returns (bool) {
         uint256 lastCommit = getLatestCommitment(_user);
+
+        if (lastCommit == 0) {
+            return true;
+        }
 
         uint256 timeZoneConversion = (7 * 60 * 60); // Hardcoded for PST right now
 
@@ -104,7 +108,7 @@ contract S0brGame is OwnableUpgradeable {
             "Insufficient Faucet Funds"
         );
 
-        require(checkTimeout(_to), "Too early to commit again");
+        require(isNextDayForUser(_to), "Too early to commit again");
 
         // TODO - add requirement that user has NFT
         // require(hasRequiredNFT(_to), "You do not have the required NFT Token");
