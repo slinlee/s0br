@@ -6,6 +6,14 @@
   import S0brToken from "../routes/contracts/S0brToken.sol/S0brToken.json";
 
   const Token = S0brToken;
+
+  // Collect contracts here?
+  // detect if in the browser
+  // detect if metamask is available
+  // get the info about the user
+  // - commitments
+  // - balance
+  // - address
 </script>
 
 <head>
