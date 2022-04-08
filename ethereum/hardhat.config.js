@@ -13,6 +13,10 @@ module.exports = {
       url: "https://rpc-mumbai.maticvigil.com",
       accounts: [process.env.MUMBAI_PRIVATE_KEY],
     },
+    polygon: {
+      url: "https://polygon-rpc.com/",
+      accounts: [process.env.POLYGON_PRIVATE_KEY],
+    },
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,

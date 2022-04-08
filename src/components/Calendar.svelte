@@ -9,7 +9,7 @@
   let cleanedData = [];
 
   async function getCommitments() {
-    const gameAddress = "0xD4Cc23e2fBE876ef5122bA97a4e8840D92CA3a81";
+    const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
     const gameContract = S0brGame;
 
     let data = [];
