@@ -56,7 +56,9 @@
     emptyColor={"#ecedf0"}
     monthGap={20}
     monthLabelHeight={0}
-    startDate={sub(new Date(), { months: 1 })}
+    startDate={cleanedData.length > 0
+      ? sub(cleanedData[0].date, { days: 1 })
+      : sub(new Date(), { months: 1 })}
     view={"monthly"}
   />
 </div>
