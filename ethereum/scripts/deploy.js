@@ -9,7 +9,7 @@ async function main() {
   const Game = await ethers.getContractFactory("S0brGame");
   console.log("Deploying Game...");
   const game = await upgrades.deployProxy(Game, [
-    process.env.MUMBAI_TOKEN_ADDRESS,
+    process.env.POLYGON_TOKEN_ADDRESS,
     faucetDripBase,
     faucetDripDecimal,
     timeout,

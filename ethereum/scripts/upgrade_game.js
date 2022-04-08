@@ -4,9 +4,12 @@ const { ethers, upgrades } = require("hardhat");
 require("dotenv").config();
 
 async function main() {
-  const game = await ethers.getContractFactory("S0brGame");
+  const S0brGame = await ethers.getContractFactory("S0brGame");
   console.log("Upgrading game...");
-  await upgrades.upgradeProxy(process.env.MUMBAI_GAME_ADDRESS, game);
+  await upgrades.upgradeProxy(
+    "0xD4Cc23e2fBE876ef5122bA97a4e8840D92CA3a81",
+    S0brGame
+  );
   console.log("Game upgraded");
 }
 

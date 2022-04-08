@@ -7,7 +7,7 @@
   let balance;
   let network;
 
-  const tokenAddress = "0xbd18ec69715668C942Ad9E87Ed42081bB27b67B0";
+  const tokenAddress = "0x139159c21171aB09c46A027503aFD6b91E3A0851";
   export let tokenContract;
 
   async function connectWallet() {
