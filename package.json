@@ -30,7 +30,7 @@
     "prettier-plugin-solidity": "^1.0.0-beta.19",
     "prettier-plugin-svelte": "^2.6.0",
     "svelte": "^3.46.6",
-    "svelte-check": "^2.4.6",
+    "svelte-check": "^2.5.0",
     "svelte-preprocess": "^4.10.5",
     "tailwindcss": "^3.0.23",
     "tslib": "^2.3.1",
