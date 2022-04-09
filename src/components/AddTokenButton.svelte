@@ -1,6 +1,5 @@
 <script>
   async function addToken() {
-    // Placeholder token from the example
     const tokenAddress = "0x139159c21171aB09c46A027503aFD6b91E3A0851";
     const tokenSymbol = "S0BR";
     const tokenDecimals = 18;
