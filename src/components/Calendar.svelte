@@ -5,6 +5,7 @@
 
   import { ethers } from "ethers";
   import S0brGame from "../routes/contracts/S0brGame.sol/S0brGame.json";
+  import { walletConnected, account, commitments } from "$lib/stores.js";
 
   let cleanedData = [];
 
@@ -13,11 +14,9 @@
     const gameContract = S0brGame;
 
     let data = [];
+    cleanedData = [];
 
     if (browser && typeof window.ethereum !== "undefined") {
-      const [account] = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
@@ -25,7 +24,7 @@
         gameContract.abi,
         signer
       );
-      data = await contract.getCommitments(account);
+      data = await contract.getCommitments($account);
       data.forEach((item) => {
         cleanedData = [
           ...cleanedData,
@@ -33,10 +32,10 @@
         ];
       });
     }
-    return cleanedData;
+    commitments.set(cleanedData);
   }
 
-  if (browser) {
+  if (browser && $walletConnected) {
     getCommitments();
   }
 </script>
@@ -51,13 +50,13 @@
     cellRadius={1}
     endDate={new Date()}
     colors={["#a1dab4", "#42b6c4", "#2c7fb9", "#263494"]}
-    data={cleanedData}
+    data={$commitments}
     dayLabelWidth={0}
     emptyColor={"#ecedf0"}
     monthGap={20}
     monthLabelHeight={0}
-    startDate={cleanedData.length > 0
-      ? sub(cleanedData[0].date, { days: 1 })
+    startDate={$walletConnected && $commitments.length > 0
+      ? sub($commitments[0].date, { days: 1 })
       : sub(new Date(), { days: 1 })}
     view={"monthly"}
   />
