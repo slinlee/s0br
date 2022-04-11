@@ -30,11 +30,11 @@
   async function setup() {
     if (browser && typeof window.ethereum !== "undefined") {
       // Set up the contracts
-      account.set(
-        await window.ethereum.request({
-          method: "eth_requestAccounts",
-        })[0]
-      );
+      const [firstAccount] = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      account.set(firstAccount);
+
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const gameContract = new ethers.Contract(
@@ -50,7 +50,7 @@
       walletConnected.set(true);
 
       // Get balance
-      let bal = await tokenContract.balanceOf(account);
+      let bal = await tokenContract.balanceOf($account);
       balance.set(ethers.utils.formatEther(bal));
 
       // Get network
@@ -61,14 +61,16 @@
     }
   }
 
-  setup();
+  if (browser) {
+    setup();
+  }
 </script>
 
 <head>
   <title>S0BR</title>
 </head>
 <div class="grid grid-cols-1 md:grid-cols-12">
-  <Wallet tokenContract />
+  <Wallet />
   <h1 class="col-span-12 text-3xl py-20 place-self-center">Welcome to S0BR</h1>
 
   <Calendar />
