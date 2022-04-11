@@ -46,7 +46,7 @@
   data-test="calendar"
 >
   <SvelteHeatmap
-    allowOverflow={false}
+    allowOverflow={true}
     cellGap={5}
     cellRadius={1}
     endDate={new Date()}
@@ -58,7 +58,7 @@
     monthLabelHeight={0}
     startDate={cleanedData.length > 0
       ? sub(cleanedData[0].date, { days: 1 })
-      : sub(new Date(), { months: 1 })}
+      : sub(new Date(), { days: 1 })}
     view={"monthly"}
   />
 </div>
