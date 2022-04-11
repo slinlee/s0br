@@ -10,13 +10,16 @@
   import { browser } from "$app/env";
   import { ethers } from "ethers";
 
+  import {
+    balance,
+    walletConnected,
+    account,
+    network,
+    commitments,
+  } from "$lib/stores.js";
+
   const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
   const tokenAddress = "0x139159c21171aB09c46A027503aFD6b91E3A0851";
-  let walletConnected = false;
-  let account;
-  let balance;
-  let network;
-  let commitments;
 
   // // Collect contracts here
   // const Token = S0brToken;
@@ -27,9 +30,11 @@
   async function setup() {
     if (browser && typeof window.ethereum !== "undefined") {
       // Set up the contracts
-      [account] = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
+      account.set(
+        await window.ethereum.request({
+          method: "eth_requestAccounts",
+        })[0]
+      );
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const gameContract = new ethers.Contract(
@@ -42,15 +47,15 @@
         S0brToken.abi,
         signer
       );
-      walletConnected = true;
+      walletConnected.set(true);
 
       // Get balance
       let bal = await tokenContract.balanceOf(account);
-      balance = ethers.utils.formatEther(bal);
+      balance.set(ethers.utils.formatEther(bal));
 
       // Get network
       let net = await provider.getNetwork();
-      network = network.name;
+      network.set(net.name);
     } else {
       // Show user 'Connect to Metamask'
     }
