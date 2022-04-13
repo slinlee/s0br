@@ -1,68 +1,16 @@
 <script>
+  import { browser } from "$app/env";
   import Calendar from "../components/Calendar.svelte";
   import Footer from "../components/Footer.svelte";
   import Wallet from "../components/Wallet.svelte";
   import CommitmentButton from "../components/Commitment-Button.svelte";
 
-  import S0brToken from "../routes/contracts/S0brToken.sol/S0brToken.json";
-  import S0brGame from "../routes/contracts/S0brGame.sol/S0brGame.json";
+  import { walletConnected } from "$lib/stores.js";
 
-  import { browser } from "$app/env";
-  import { ethers } from "ethers";
+  import { getData } from "$lib/s0br.js";
 
-  import {
-    balance,
-    walletConnected,
-    account,
-    network,
-    commitments,
-  } from "$lib/stores.js";
-
-  const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
-  const tokenAddress = "0x139159c21171aB09c46A027503aFD6b91E3A0851";
-
-  // // Collect contracts here
-  // const Token = S0brToken;
-  // const Game = S0brGame; // TODO: needed?
-
-  // detect if in the browser
-  // detect if metamask is available
-  async function setup() {
-    if (browser && typeof window.ethereum !== "undefined") {
-      // Set up the contracts
-      const [firstAccount] = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      account.set(firstAccount);
-
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const gameContract = new ethers.Contract(
-        gameAddress,
-        S0brGame.abi,
-        signer
-      );
-      const tokenContract = new ethers.Contract(
-        tokenAddress,
-        S0brToken.abi,
-        signer
-      );
-      walletConnected.set(true);
-
-      // Get balance
-      let bal = await tokenContract.balanceOf($account);
-      balance.set(ethers.utils.formatEther(bal));
-
-      // Get network
-      let net = await provider.getNetwork();
-      network.set(net.name);
-    } else {
-      // Show user 'Connect to Metamask'
-    }
-  }
-
-  if (browser) {
-    setup();
+  if (browser && $walletConnected) {
+    getData();
   }
 </script>
 
