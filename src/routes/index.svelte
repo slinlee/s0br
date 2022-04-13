@@ -1,4 +1,6 @@
 <script>
+  import { toDate, add, sub, isBefore } from "date-fns";
+
   import Calendar from "../components/Calendar.svelte";
   import Footer from "../components/Footer.svelte";
   import Wallet from "../components/Wallet.svelte";
@@ -49,6 +51,21 @@
       // Get network
       let net = await provider.getNetwork();
       network.set(net.name);
+
+      // Get calendar data
+
+      let data = [];
+      let cleanedData = [];
+
+      data = await gameContract.getCommitments($account);
+      data.forEach((item) => {
+        cleanedData = [
+          ...cleanedData,
+          { date: toDate(item.toNumber() * 1000), value: 1 },
+        ];
+      });
+
+      commitments.set(cleanedData);
     } else {
       // Show user 'Connect to Metamask'
     }
