@@ -21,15 +21,8 @@
   const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
   const tokenAddress = "0x139159c21171aB09c46A027503aFD6b91E3A0851";
 
-  // // Collect contracts here
-  // const Token = S0brToken;
-  // const Game = S0brGame; // TODO: needed?
-
-  // detect if in the browser
-  // detect if metamask is available
   async function setup() {
     if (browser && typeof window.ethereum !== "undefined") {
-      // Set up the contracts
       const [firstAccount] = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
