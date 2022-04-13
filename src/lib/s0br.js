@@ -14,6 +14,7 @@ import {
 
 const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
 const tokenAddress = "0x139159c21171aB09c46A027503aFD6b91E3A0851";
+let provider, signer, gameContract, tokenContract;
 
 export async function getData() {
   if (browser && typeof window.ethereum !== "undefined") {
@@ -22,14 +23,13 @@ export async function getData() {
     });
     account.set(firstAccount);
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const gameContract = new ethers.Contract(gameAddress, S0brGame.abi, signer);
-    const tokenContract = new ethers.Contract(
-      tokenAddress,
-      S0brToken.abi,
-      signer
-    );
+    if (!gameContract || !tokenContract) {
+      console.log("creating contracts"); // debug
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      signer = provider.getSigner();
+      gameContract = new ethers.Contract(gameAddress, S0brGame.abi, signer);
+      tokenContract = new ethers.Contract(tokenAddress, S0brToken.abi, signer);
+    }
     walletConnected.set(true);
 
     // Get balance
@@ -54,7 +54,5 @@ export async function getData() {
     });
 
     commitments.set(cleanedData);
-  } else {
-    // Show user 'Connect to Metamask'
   }
 }
