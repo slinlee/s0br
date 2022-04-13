@@ -1,15 +1,13 @@
 <script>
   import { ethers } from "ethers";
   import S0brGame from "../routes/contracts/S0brGame.sol/S0brGame.json";
+  import { walletConnected, account } from "$lib/stores.js";
 
   async function commit() {
     const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
     const gameContract = S0brGame;
 
-    if (typeof window.ethereum !== "undefined") {
-      const [account] = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
+    if ($walletConnected) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
@@ -17,8 +15,7 @@
         gameContract.abi,
         signer
       );
-      const tx = await contract.faucet(account);
-      console.log(tx); // debug
+      const tx = await contract.faucet($account);
     }
   }
 </script>
