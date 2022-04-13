@@ -5,26 +5,13 @@
   import Wallet from "../components/Wallet.svelte";
   import CommitmentButton from "../components/Commitment-Button.svelte";
 
-  import {
-    balance,
-    walletConnected,
-    account,
-    network,
-    commitments,
-  } from "$lib/stores.js";
+  import { walletConnected } from "$lib/stores.js";
 
   import { getData } from "$lib/s0br.js";
 
   if (browser && $walletConnected) {
     getData();
   }
-
-  // account.subscribe(()=> {console.log("getting data - account changed");
-  // getData();
-  // })
-  // network.subscribe(()=> {console.log("getting data - network changed");
-  // getData();
-  // })
 </script>
 
 <head>
