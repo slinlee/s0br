@@ -14,5 +14,7 @@
 </div>
 
 {#if showStats}
-  <DebugStats class="col-span-12 place-self-end m-8 mt-20" />
+  <div class="col-span-12 place-self-end m-8 mt-20">
+    <DebugStats />
+  </div>
 {/if}
