@@ -10,19 +10,26 @@
   } from "$lib/stores.js";
   import { getData } from "$lib/s0br.js";
 
-  let sortedCal = $commitments;
-  console.table(sortedCal); // debug
+  let totalCommitments,
+    latestCommitment,
+    firstCommitment = 0;
+
   function refreshData() {
     getData();
   }
 
-  sortedCal = [...sortedCal].sort((a, b) => {
-    compareAsc(a.date, b.date);
-  });
+  commitments.subscribe((value) => {
+    let sortedCal = value;
+    if (sortedCal.length > 0) {
+      sortedCal = [...sortedCal].sort((a, b) => {
+        compareAsc(a.date, b.date);
+      });
 
-  let firstCommitment = sortedCal[0].date;
-  let latestCommitment = sortedCal[-1].date;
-  let totalCommitments = sortedCal.length;
+      firstCommitment = sortedCal[0].date;
+      latestCommitment = sortedCal[sortedCal.length - 1].date;
+      totalCommitments = sortedCal.length;
+    }
+  });
 </script>
 
 <h2>Stat Details:</h2>
