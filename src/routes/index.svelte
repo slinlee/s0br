@@ -1,16 +1,22 @@
 <script>
+  import { ethers } from "ethers";
   import { browser } from "$app/env";
   import Calendar from "../components/Calendar.svelte";
   import Footer from "../components/Footer.svelte";
   import Wallet from "../components/Wallet.svelte";
   import CommitmentButton from "../components/Commitment-Button.svelte";
 
-  import { walletConnected } from "$lib/stores.js";
-
   import { getData } from "$lib/s0br.js";
 
-  if (browser && $walletConnected) {
-    getData();
+  if (browser) {
+    // Test if Metamask is already connected
+    (async () => {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const addresses = await provider.listAccounts();
+      if (addresses.length) {
+        getData();
+      }
+    })();
   }
 </script>
 
