@@ -1,7 +1,6 @@
 <script>
-  import { account, walletConnected, network, balance } from "$lib/stores.js";
+  import { walletConnected } from "$lib/stores.js";
   import { getData } from "$lib/s0br.js";
-  import AddTokenButton from "./AddTokenButton.svelte";
   function connectWallet() {
     getData();
   }

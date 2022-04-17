@@ -4,6 +4,7 @@
   import Footer from "../components/Footer.svelte";
   import Wallet from "../components/Wallet.svelte";
   import CommitmentButton from "../components/Commitment-Button.svelte";
+  import Instructions from "../components/Instructions.svelte";
 
   import { walletConnected } from "$lib/stores.js";
 
@@ -26,6 +27,8 @@
   <div class="place-self-center col-span-12">
     <CommitmentButton />
   </div>
+
+  <Instructions />
 
   <Footer />
 </div>
