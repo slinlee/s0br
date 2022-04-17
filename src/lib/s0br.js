@@ -24,7 +24,6 @@ export async function getData() {
     account.set(firstAccount);
 
     if (!gameContract || !tokenContract) {
-      console.log("creating contracts"); // debug
       provider = new ethers.providers.Web3Provider(window.ethereum);
       signer = provider.getSigner();
       gameContract = new ethers.Contract(gameAddress, S0brGame.abi, signer);
