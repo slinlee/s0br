@@ -8,14 +8,7 @@
 </script>
 
 <div class="col-span-12 place-self-end p-8" data-test="wallet-info">
-  {#if $walletConnected}
-    <div>
-      Connected Account: {$account}
-    </div>
-    <div>Balance: {$balance}</div>
-    <div>Network: {$network}</div>
-    <AddTokenButton />
-  {:else}
+  {#if !$walletConnected}
     <button class="button buttonMetaMask" on:click={connectWallet}>
       Connect MetaMask
     </button>
