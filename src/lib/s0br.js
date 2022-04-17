@@ -22,12 +22,17 @@ const networkMetadata = {
 };
 let provider, signer, gameContract, tokenContract;
 
+if (browser && typeof window.ethereum !== "undefined" && !provider) {
+  provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+  provider.on("network", (newNetwork, oldNetwork) => {
+    if (oldNetwork) {
+      window.location.reload();
+    }
+  });
+}
+
 export async function getData() {
   if (browser && typeof window.ethereum !== "undefined") {
-    if (!provider) {
-      provider = new ethers.providers.Web3Provider(window.ethereum);
-    }
-
     // Get account
     const [firstAccount] = await window.ethereum.request({
       method: "eth_requestAccounts",
