@@ -32,52 +32,49 @@
   });
 </script>
 
-<h2>Stats:</h2>
-<table class="p-2 table-auto border">
-  <tr
-    ><td class="border font-bold p-2 text-right"> Account</td>
-    <td class="border p-2"> {$account}</td></tr
-  >
-  <tr>
-    <td class="border font-bold p-2 text-right"> S0BR Token Balance</td><td
-      class="border p-2"
+<div class="bg-amber-100 p-8 shadow-lg">
+  <h2 class="font-bold">Stats:</h2>
+  <table class="p-8 table-auto border">
+    <tr>
+      <td class="border font-bold p-2 text-right"> Account</td>
+      <td class="border p-2">{$account}</td>
+    </tr>
+    <tr>
+      <td class="border font-bold p-2 text-right"> S0BR Token Balance</td>
+      <td class="border p-2">
+        {$balance}
+      </td></tr
     >
-      {$balance}
-    </td></tr
-  >
-  <tr>
-    <td class="border font-bold p-2 text-right"> Network</td><td
-      class="border p-2"
-    >
-      {$network}
-    </td>
-  </tr>
-  <tr>
-    <td class="border font-bold p-2 text-right"> Total commitments</td><td
-      class="border p-2"
-    >
-      {totalCommitments}
-    </td>
-  </tr>
-  <tr>
-    <td class="border font-bold p-2 text-right"> First commitment</td><td
-      class="border p-2"
-    >
-      {firstCommitment}
-    </td></tr
-  >
-  <tr
-    ><td class="border font-bold p-2 text-right"> Latest commitment</td><td
-      class="border p-2"
-    >
-      {latestCommitment}
-    </td></tr
-  >
-</table>
+    <tr>
+      <td class="border font-bold p-2 text-right"> Network</td>
+      <td class="border p-2">
+        {$network}
+      </td>
+    </tr>
+    <tr>
+      <td class="border font-bold p-2 text-right"> Total commitments</td>
+      <td class="border p-2">
+        {totalCommitments}
+      </td>
+    </tr>
+    <tr>
+      <td class="border font-bold p-2 text-right"> First commitment</td>
+      <td class="border p-2">
+        {firstCommitment}
+      </td>
+    </tr>
+    <tr>
+      <td class="border font-bold p-2 text-right"> Latest commitment</td>
+      <td class="border p-2">
+        {latestCommitment}
+      </td>
+    </tr>
+  </table>
 
-<button
-  on:click={refreshData}
-  class="rounded
+  <div class="py-4">
+    <button
+      on:click={refreshData}
+      class="rounded
     shadow-lg
     hover:shadow-2xl
     transition
@@ -89,4 +86,6 @@
     py-2
     px-8
   ">Refresh</button
->
+    >
+  </div>
+</div>
