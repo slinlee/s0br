@@ -35,6 +35,22 @@ if (browser && typeof window.ethereum !== "undefined" && !provider) {
       window.location.reload();
     }
   });
+  provider.on("accountsChanged", (accounts) => {
+    console.log("accounts changed"); // debug
+
+    if (accounts.length === 0) {
+      // MetaMask is locked or the user has not connected any accounts
+      console.log("Please connect to MetaMask.");
+      errorMsg.set("Please connect to MetaMask.");
+    } else if (accounts[0] !== $account) {
+      console.log("Account changed. Reloading.");
+      errorMsg.set("Account changed. Reloading.");
+      window.location.reload();
+      // Do any other work!
+    }
+    errorMsg.set("Account changed. Reloading");
+    window.location.reload();
+  });
 }
 
 export async function getData() {
