@@ -10,7 +10,7 @@ test("index page should have main button", async ({ page }) => {
   await page.goto("/");
 
   // Click [data-test="commitment-btn"]
-  expect(await page.locator('[data-test="commitment-btn"]').textContent()).toBe(
+  await expect(page.locator('[data-test="commitment-btn"]')).toContainText(
     "I am not drinking today"
   );
 });
