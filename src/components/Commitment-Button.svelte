@@ -1,9 +1,14 @@
 <script lang="ts">
   import { ethers } from "ethers";
   import S0brGame from "../routes/contracts/S0brGame.sol/S0brGame.json";
+  import { getData } from "$lib/s0br.js";
   import { walletConnected, account, errorMsg } from "$lib/stores.js";
 
+  let submitting = false;
+  let success = false;
+
   async function commit() {
+    submitting = true;
     const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
     const gameContract = S0brGame;
 
@@ -16,20 +21,38 @@
         signer
       );
       errorMsg.set(null);
-      await contract.faucet($account).catch((error) => {
-        errorMsg.set(
-          `There was an issue adding your commit: "${error?.data?.message}"`
-        );
-        console.log("Error adding commit: ", error.data.message);
-      });
+      try {
+        let tx = await contract.faucet($account);
+
+        // Wait for it to be mined
+        await tx.wait();
+        success = true;
+      } catch (error) {
+        handleError(error);
+      }
+      submitting = false;
+      getData();
     }
+  }
+
+  function handleError(error) {
+    // TODO; reset button status
+
+    errorMsg.set(
+      `There was an issue adding your commit: "${error?.data?.message}"`
+    );
+    console.log("Error adding commit: ", error.data.message);
+    submitting = false;
+    success = false;
   }
 </script>
 
 <button
   on:click={commit}
+  disabled={!walletConnected || submitting}
   data-test="commitment-btn"
-  class="rounded
+  class="
+    rounded
     shadow-lg
     hover:shadow-2xl
     transition
@@ -40,7 +63,9 @@
     font-bold
     py-2
     px-8
-  "
+    disabled:opacity-25"
 >
+  {#if success}✔️{/if}
+  {#if submitting}💬{/if}
   I am not drinking today
 </button>
