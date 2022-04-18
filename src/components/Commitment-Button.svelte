@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
   import { ethers } from "ethers";
   import S0brGame from "../routes/contracts/S0brGame.sol/S0brGame.json";
-  import { walletConnected, account } from "$lib/stores.js";
+  import { walletConnected, account, errorMsg } from "$lib/stores.js";
 
   async function commit() {
     const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
@@ -15,7 +15,13 @@
         gameContract.abi,
         signer
       );
-      const tx = await contract.faucet($account);
+      errorMsg.set(null);
+      await contract.faucet($account).catch((error) => {
+        errorMsg.set(
+          `There was an issue adding your commit: "${error?.data?.message}"`
+        );
+        console.log("Error adding commit: ", error.data.message);
+      });
     }
   }
 </script>

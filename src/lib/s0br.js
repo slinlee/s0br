@@ -10,6 +10,7 @@ import {
   account,
   network,
   commitments,
+  errorMsg,
 } from "$lib/stores.js";
 
 const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
@@ -22,10 +23,15 @@ const networkMetadata = {
 };
 let provider, signer, gameContract, tokenContract;
 
+if (browser && typeof window.ethereum === "undefined") {
+  errorMsg.set("Install Metamask to use S0BR");
+}
+
 if (browser && typeof window.ethereum !== "undefined" && !provider) {
   provider = new ethers.providers.Web3Provider(window.ethereum, "any");
   provider.on("network", (newNetwork, oldNetwork) => {
     if (oldNetwork) {
+      errorMsg.set("Network changed. Reloading");
       window.location.reload();
     }
   });
@@ -39,9 +45,12 @@ export async function getData() {
     });
     account.set(firstAccount);
 
+    walletConnected.set(true);
+
     // Get network
     let net = await provider.getNetwork();
     if (net.chainId !== networkChainId) {
+      errorMsg.set("Connect your Metamask to the Polygon Mainnet Network");
       try {
         await window.ethereum.request({
           method: "wallet_switchEthereumChain",
@@ -50,6 +59,7 @@ export async function getData() {
       } catch (switchError) {
         // This error code indicates that the chain has not been added to MetaMask.
         if (switchError.code === 4902) {
+          errorMsg.set("Add Polygon Mainnet Network to your Metamask.");
           try {
             await ethereum.request({
               method: "wallet_addEthereumChain",
@@ -57,6 +67,9 @@ export async function getData() {
             });
           } catch (addError) {
             // handle "add" error
+            errorMsg.set(
+              `There was an error adding Polygon Mainnet: "${addError}"`
+            );
             console.log(addError);
           }
         }
@@ -69,7 +82,6 @@ export async function getData() {
       gameContract = new ethers.Contract(gameAddress, S0brGame.abi, signer);
       tokenContract = new ethers.Contract(tokenAddress, S0brToken.abi, signer);
     }
-    walletConnected.set(true);
 
     // Get balance
     let bal = await tokenContract.balanceOf(firstAccount);
