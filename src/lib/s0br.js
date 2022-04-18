@@ -94,6 +94,13 @@ export async function getData() {
       signer = provider.getSigner();
       gameContract = new ethers.Contract(gameAddress, S0brGame.abi, signer);
       tokenContract = new ethers.Contract(tokenAddress, S0brToken.abi, signer);
+
+      // listen for 'faucet' events
+      let filter = gameContract.filters.madeCommitment(firstAccount);
+      gameContract.on(filter, () => {
+        console.log("User made commitment"); // debug
+        getData();
+      });
     }
 
     // Get balance
