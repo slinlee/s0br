@@ -74,7 +74,7 @@ export async function getData() {
         if (switchError.code === 4902) {
           errorMsg.set("Add Polygon Mainnet Network to your Metamask.");
           try {
-            await ethereum.request({
+            await window.ethereum.request({
               method: "wallet_addEthereumChain",
               params: [networkMetadata],
             });
