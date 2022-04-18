@@ -1,4 +1,6 @@
 <script>
+  import { errorMsg } from "$lib/stores.js";
+
   async function addToken() {
     const tokenAddress = "0x139159c21171aB09c46A027503aFD6b91E3A0851";
     const tokenSymbol = "S0BR";
@@ -20,6 +22,7 @@
         },
       });
     } catch (error) {
+      errorMsg.set("Error adding S0BR Token to Metamask: ", error);
       console.log(error);
     }
   }
