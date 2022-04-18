@@ -29,27 +29,24 @@ if (browser && typeof window.ethereum === "undefined") {
 
 if (browser && typeof window.ethereum !== "undefined" && !provider) {
   provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+
   provider.on("network", (newNetwork, oldNetwork) => {
     if (oldNetwork) {
       errorMsg.set("Network changed. Reloading");
       window.location.reload();
     }
   });
-  provider.on("accountsChanged", (accounts) => {
-    console.log("accounts changed"); // debug
 
+  window.ethereum.on("accountsChanged", (accounts) => {
     if (accounts.length === 0) {
       // MetaMask is locked or the user has not connected any accounts
       console.log("Please connect to MetaMask.");
       errorMsg.set("Please connect to MetaMask.");
-    } else if (accounts[0] !== $account) {
+    } else {
       console.log("Account changed. Reloading.");
       errorMsg.set("Account changed. Reloading.");
       window.location.reload();
-      // Do any other work!
     }
-    errorMsg.set("Account changed. Reloading");
-    window.location.reload();
   });
 }
 
