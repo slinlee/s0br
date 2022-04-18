@@ -20,7 +20,7 @@ test("index page should have wallet info", async ({ page }) => {
   await page.goto("/");
 
   await expect(page.locator('[data-test="wallet-info"]')).toContainText(
-    "Connect MetaMask"
+    "Loading..."
   );
 });
 
