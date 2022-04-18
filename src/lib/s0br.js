@@ -68,8 +68,7 @@ export async function getData() {
           } catch (addError) {
             // handle "add" error
             errorMsg.set(
-              "There was an error adding Polygon Mainnet: ",
-              addError
+              `There was an error adding Polygon Mainnet: "${addError}"`
             );
             console.log(addError);
           }

@@ -22,7 +22,7 @@
         },
       });
     } catch (error) {
-      errorMsg.set("Error adding S0BR Token to Metamask: ", error);
+      errorMsg.set(`Error adding S0BR Token to Metamask: "${error}"`);
       console.log(error);
     }
   }
