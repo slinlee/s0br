@@ -8,7 +8,6 @@
   import ErrorMsg from "../components/ErrorMsg.svelte";
 
   import { getData } from "$lib/s0br.js";
-  import { walletConnected } from "$lib/stores.js";
 
   let loading = true;
   if (browser) {
