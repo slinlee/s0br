@@ -18,10 +18,12 @@
         {#if $walletConnected}☑️{:else}🔲{/if} Connect Metamask
       </li>
       <li>
-        {#if $network === "matic"}Matic {:else} notmatic {/if}
-        {$network} Switch to Polygon Network
+        {#if $network === "matic"}☑️{:else}🔲{/if} Switch to Polygon Network
       </li>
-      <li>Add Token to Metamask.<br /><AddTokenButton /></li>
+      <li>
+        🔲 Add Token to Metamask. (We can't tell if you've done this yet) <AddTokenButton
+        />
+      </li>
     </ol>
   </div>
 </div>
