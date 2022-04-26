@@ -3,6 +3,12 @@
   import SvelteHeatmap from "svelte-heatmap";
 
   import { walletConnected, commitments } from "$lib/stores.js";
+
+  let _data = [];
+
+  commitments.subscribe((data) => {
+    _data = [...data, { date: new Date(), value: 0.4 }];
+  });
 </script>
 
 <div
@@ -15,7 +21,7 @@
     cellRadius={1}
     endDate={new Date()}
     colors={["#a1dab4", "#42b6c4", "#2c7fb9", "#263494"]}
-    data={$commitments}
+    data={_data}
     dayLabelWidth={0}
     emptyColor={"#ecedf0"}
     monthGap={20}
