@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { sub } from "date-fns";
+  import { startOfMonth, sub } from "date-fns";
   import SvelteHeatmap from "svelte-heatmap";
 
   import { walletConnected, commitments } from "$lib/stores.js";
@@ -10,7 +10,7 @@
   data-test="calendar"
 >
   <SvelteHeatmap
-    allowOverflow={true}
+    allowOverflow={false}
     cellGap={5}
     cellRadius={1}
     endDate={new Date()}
@@ -21,8 +21,8 @@
     monthGap={20}
     monthLabelHeight={0}
     startDate={$walletConnected && $commitments.length > 0
-      ? sub($commitments[0].date, { days: 1 })
-      : sub(new Date(), { days: 1 })}
+      ? startOfMonth(sub($commitments[0].date, { days: 1 }))
+      : startOfMonth(sub(new Date(), { days: 1 }))}
     view={"monthly"}
   />
 </div>
