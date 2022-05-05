@@ -1,6 +1,6 @@
 <script>
   import { network, walletConnected } from "$lib/stores.js";
-  import { addToken } from "$lib/s0br.js";
+  import { addToken, getData } from "$lib/s0br.js";
 </script>
 
 <div
@@ -33,7 +33,8 @@
     <h2 class="font-bold font-lg">Get started</h2>
     <ol class="list-outside">
       <li>
-        {#if $walletConnected}☑️{:else}🔲{/if} Connect Metamask
+        {#if $walletConnected}☑️{:else}🔲{/if}
+        <a href="javascript:void(0)" on:click={getData}>Connect Metamask</a>
       </li>
       <li>
         {#if $network === "matic"}☑️{:else}🔲{/if} Switch to Polygon Network
