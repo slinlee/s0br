@@ -1,5 +1,5 @@
 <script>
-  import { network, walletConnected } from "$lib/stores.js";
+  import { network, walletConnected, commitments } from "$lib/stores.js";
   import { addToken, getData } from "$lib/s0br.js";
 </script>
 
@@ -41,8 +41,12 @@
       </li>
       <li>
         🔲 <a href="javascript:void(0)" on:click={addToken}
-          >Add Token to Metamask.</a
+          >Add S0BR Token to Metamask.</a
         > (We can't tell if you've done this yet)
+      </li>
+      <li>
+        {#if $commitments.length > 0}
+          ☑️{:else}🔲{/if} Commit to your first day of S0BR
       </li>
     </ol>
   </div>
