@@ -7,7 +7,6 @@
   import CommitmentButton from "../components/Commitment-Button.svelte";
   import Instructions from "../components/Instructions.svelte";
 
-  import { walletConnected } from "$lib/stores.js";
   import ErrorMsg from "../components/ErrorMsg.svelte";
 
   import { getData } from "$lib/s0br.js";
