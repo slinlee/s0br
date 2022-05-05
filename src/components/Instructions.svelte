@@ -1,6 +1,6 @@
 <script>
-  import AddTokenButton from "./AddTokenButton.svelte";
   import { network, walletConnected } from "$lib/stores.js";
+  import { addToken } from "$lib/s0br.js";
 </script>
 
 <div
@@ -21,8 +21,9 @@
         {#if $network === "matic"}☑️{:else}🔲{/if} Switch to Polygon Network
       </li>
       <li>
-        🔲 Add Token to Metamask. (We can't tell if you've done this yet) <AddTokenButton
-        />
+        🔲 <a href="javascript:void(0)" on:click={addToken}
+          >Add Token to Metamask.</a
+        > (We can't tell if you've done this yet)
       </li>
     </ol>
   </div>
