@@ -40,14 +40,14 @@
         {#if $network === "matic"}☑️{:else}🔲{/if} Switch to Polygon Network
       </li>
       <li>
-        🔲 <a href="javascript:void(0)" on:click={addToken}
-          >Add S0BR Token to Metamask.</a
-        > (We can't tell if you've done this yet)
-      </li>
-      <li>
         {#if $commitments.length > 0}
           ☑️{:else}🔲{/if} Commit to your first day of S0BR
       </li>
     </ol>
+    <p>
+      Optional: <a href="javascript:void(0)" on:click={addToken}
+        >Add S0BR Token to Metamask.</a
+      >
+    </p>
   </div>
 </div>
