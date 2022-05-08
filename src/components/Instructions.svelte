@@ -9,7 +9,7 @@
   <div class="prose py-4">
     <h2 class="font-bold font-lg">What is S0BR?</h2>
 
-    <p>It's a commitment to yourself.</p>
+    <p>S0BR is a Web3 app for your sober life.</p>
     <p>
       Each morning, you make a decision, "I am not drinking today". And just by
       committing to that in the morning, it's easier the rest of the day when
