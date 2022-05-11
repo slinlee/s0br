@@ -11,7 +11,7 @@ test("index page should have main button", async ({ page }) => {
 
   // Click [data-test="commitment-btn"]
   await expect(page.locator('[data-test="commitment-btn"]')).toContainText(
-    "I am not drinking today"
+    "Connect MetaMask"
   );
 });
 
