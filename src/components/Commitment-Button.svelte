@@ -32,6 +32,9 @@
       }
       submitting = false;
       getData();
+    } else {
+      // Wallet not connected. Try to connect
+      getData();
     }
   }
 
@@ -49,7 +52,7 @@
 
 <button
   on:click={commit}
-  disabled={!walletConnected || submitting}
+  disabled={submitting}
   data-test="commitment-btn"
   class="
     rounded
@@ -67,5 +70,5 @@
 >
   {#if success}✔️{/if}
   {#if submitting}💬{/if}
-  I am not drinking today
+  {#if $walletConnected}I am not drinking today{:else}Connect MetaMask{/if}
 </button>
