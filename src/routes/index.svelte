@@ -26,7 +26,7 @@
 </script>
 
 <head>
-  <title>S0BR</title>
+  <title>S0BR - A Web3 App for Your Sober Life</title>
 </head>
 
 <ErrorMsg />
