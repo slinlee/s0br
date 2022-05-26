@@ -31,7 +31,7 @@ jobs:
         with:
           path: |
             ~/.cache/ms-playwright
-          key: cache-playwright-linux-1.21.1
+          key: cache-playwright-linux-1.22.2
 
       - uses: pnpm/action-setup@v2.2.1
         with:
