@@ -1,5 +1,10 @@
 <script>
-  import { network, walletConnected, commitments } from "$lib/stores.js";
+  import {
+    network,
+    walletConnected,
+    commitments,
+    maticBalance,
+  } from "$lib/stores.js";
   import { addToken, getData } from "$lib/s0br.js";
 </script>
 
@@ -38,6 +43,15 @@
       </li>
       <li>
         {#if $network === "matic"}☑️{:else}🔲{/if} Switch to Polygon Network
+      </li>
+      <li>
+        {#if $network === "matic" && $maticBalance > 0} ☑️{:else}🔲{/if}
+        Get MATIC for paying gas fees.
+        {#if $network === "matic" && $maticBalance == 0}(If you need some, find
+          me on <a href="https://discord.gg/y7PGJRZvPa" target="_blank"
+            >Discord</a
+          >
+          and I might be able to help out.){/if}
       </li>
       <li>
         {#if $commitments.length > 0}
