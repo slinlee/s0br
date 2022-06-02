@@ -22,7 +22,7 @@
     allowOverflow={false}
     cellGap={5}
     cellRadius={1}
-    colors={["#a1dab4", "#42b6c4", "#2c7fb9", "#263494"]}
+    colors={["#b1baec", "#42b6c4", "#2c7fb9", "#263494"]}
     data={$commitments}
     dayLabelWidth={0}
     emptyColor={"#ecedf0"}
