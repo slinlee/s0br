@@ -88,6 +88,7 @@ export async function getData() {
           }
         }
       }
+      return;
     }
     network.set(net.name);
 
@@ -111,6 +112,9 @@ export async function getData() {
     // Get matic balance
     let maticBal = await provider.getBalance(firstAccount);
     maticBalance.set(ethers.utils.formatEther(maticBal));
+    if (maticBal == 0) {
+      errorMsg.set("You'll need to get some MATIC to use this app.");
+    }
 
     // Get calendar data
 
