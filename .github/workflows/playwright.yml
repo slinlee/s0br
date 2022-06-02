@@ -33,7 +33,7 @@ jobs:
             ~/.cache/ms-playwright
           key: cache-playwright-linux-1.22.2
 
-      - uses: pnpm/action-setup@v2.2.1
+      - uses: pnpm/action-setup@v2.2.2
         with:
           version: 6.32.3
           run_install: |
