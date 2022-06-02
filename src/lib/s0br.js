@@ -11,6 +11,7 @@ import {
   network,
   commitments,
   errorMsg,
+  maticBalance,
 } from "$lib/stores.js";
 
 const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
@@ -103,9 +104,13 @@ export async function getData() {
       });
     }
 
-    // Get balance
+    // Get s0br token balance
     let bal = await tokenContract.balanceOf(firstAccount);
     balance.set(ethers.utils.formatEther(bal));
+
+    // Get matic balance
+    let maticBal = await provider.getBalance(firstAccount);
+    maticBalance.set(ethers.utils.formatEther(maticBal));
 
     // Get calendar data
 
