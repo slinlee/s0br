@@ -14,6 +14,8 @@ import {
   maticBalance,
 } from "$lib/stores.js";
 
+const mvpUserAddress = "0x475b95dbb79b6109e405499de90e5515f1ac9c71";
+
 const gameAddress = "0x28D4aAc8Dc916bAd9778313df9334334A7e04A6A";
 const tokenAddress = "0x139159c21171aB09c46A027503aFD6b91E3A0851";
 const networkChainId = 137; // Polygon Mainnet
@@ -128,6 +130,18 @@ export async function getData() {
         { date: toDate(item.toNumber() * 1000), value: 1 },
       ];
     });
+
+    if (firstAccount === mvpUserAddress) {
+      // Manually add successes to the UI to test out the feature
+      const unsuccesses = [
+        { date: "2022, 4, 8", value: -0.8 },
+        { date: "2022, 5, 2", value: -0.8 },
+        { date: "2022, 5, 3", value: -0.8 },
+        { date: "2022, 5, 17", value: -0.8 },
+        { date: "2022, 5, 28", value: -0.8 },
+      ];
+      cleanedData = [...cleanedData, ...unsuccesses];
+    }
 
     commitments.set(cleanedData);
   }
