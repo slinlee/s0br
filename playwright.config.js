@@ -30,8 +30,8 @@ const config = {
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "npm run build && npm run preview",
-    port: 3000,
+    command: "pnpm run build && pnpm run preview",
+    port: 4173,
   },
 };
 
