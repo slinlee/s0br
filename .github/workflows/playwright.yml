@@ -18,7 +18,7 @@ jobs:
           node-version: "16.x"
 
       - name: Cache pnpm modules
-        uses: actions/cache@v3.0.4
+        uses: actions/cache@v3.0.5
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml')}}
@@ -26,7 +26,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Cache playwright binaries
-        uses: actions/cache@v3.0.4
+        uses: actions/cache@v3.0.5
         id: playwright-cache
         with:
           path: |
