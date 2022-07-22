@@ -143,6 +143,7 @@ export async function getData() {
         { date: "2022, 6, 11", value: -0.8 },
         { date: "2022, 7, 2", value: -0.8 },
         { date: "2022, 7, 16", value: -0.8 },
+        { date: "2022, 7, 22", value: -0.8 },
       ];
       cleanedData = [...cleanedData, ...unsuccesses];
     }
